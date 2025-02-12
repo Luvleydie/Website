@@ -1,0 +1,217 @@
+/* =============================
+   Estilos Globales
+============================= */
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f4f4f9;
+  color: #333;
+}
+
+/* Contenedor principal */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* =============================
+   Header y Navegación
+============================= */
+header {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header .logo h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+header .logo p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: background 0.3s, transform 0.3s;
+  border-radius: 4px;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* =============================
+   Contenido Principal
+============================= */
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* =============================
+   Footer
+============================= */
+footer {
+  background: #1e3c72;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* =============================
+   Home Component
+============================= */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  background: url('https://source.unsplash.com/1600x900/?restaurant,sea') no-repeat center center/cover;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.home-container .hero {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.home-container .hero h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.home-container .hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-container .hero .btn {
+  background: #ff6b6b;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.home-container .hero .btn:hover {
+  background: #ff4c4c;
+}
+
+/* =============================
+   Inventory Component
+============================= */
+.inventory-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.inventory-table th, 
+.inventory-table td {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.inventory-table th {
+  background: #f0f0f0;
+}
+
+/* =============================
+   Reports Component
+============================= */
+.reports-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reports-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.reports-container .placeholder {
+  background: #f9f9f9;
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  border-radius: 8px;
+}
+
+/* =============================
+   Contact Component
+============================= */
+.contact-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.contact-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-container ul li {
+  margin-bottom: 0.5rem;
+}
+
+.contact-container a {
+  color: #1e3c72;
+  text-decoration: none;
+}
+
+.contact-container a:hover {
+  text-decoration: underline;
+}
