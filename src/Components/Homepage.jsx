@@ -160,7 +160,7 @@ const Homepage = () => {
         <h2>Premium Plans</h2>
         <div className="prices__cards">
           <div className="prices__card prices__card--basic">
-            <h3>MX$0</h3>
+            <h3>MX$23</h3>
             <p>Per month</p>
             <h4>Basic</h4>
             <ul>
