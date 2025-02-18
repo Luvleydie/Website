@@ -25,7 +25,7 @@ const SignUpPage = () => {
           alt="Warehouse with inventory"
         />
         <div className="signup-page__overlay">
-          <h2>“Control, organize and optimize your inventory efficiently.”</h2>
+          <h2>“Control, organize and optimize your inventory in a  efficiently way.”</h2>
         </div>
       </div>
 
@@ -37,12 +37,12 @@ const SignUpPage = () => {
             alt="Alma-zen logo"
           />
         </div>
-        <h2 className="signup-page__title">Create your free account</h2>
+        <h2 className="signup-page__title">Create your account</h2>
 
         <form className="signup-page__form">
           <label>
-            User
-            <input type="text" placeholder="Enter your user" />
+            Username
+            <input type="text" placeholder="Enter your username" />
           </label>
           <label>
             Email
@@ -58,7 +58,7 @@ const SignUpPage = () => {
           </label>
           <label>
             Phone Number
-            <input type="tel" placeholder="e.g. +1 234 567 890" />
+            <input type="tel" placeholder="e.g. +51 618 274 3609" />
           </label>
         </form>
 

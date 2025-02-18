@@ -48,18 +48,20 @@ const Homepage = () => {
             <span className="search-icon">🔍</span>
           </div>
           <button className="theme-toggle" onClick={toggleTheme}>
-            {isDarkMode ? "☀️" : "🌙"}
+            {isDarkMode ? /* aqui se pone un sol pero despues lol */'' : "🌙"}
           </button>
         </div>
 
         <div className={`nav-links ${isMobileNavOpen ? "open" : ""}`}>
-          <a href="#services">Services</a>
-          <a href="#prices">Prices</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-          <Link to="/login" className="login-button">
+        <Link to="/login">
             Log in
           </Link>
+          <a href="#contact">Contact</a>
+          <Link to="/signup">
+            Sign-up
+          </Link>
+          <a href="#prices">Prices</a>
+          <a href="#about">About</a>
         </div>
 
         <div
@@ -162,9 +164,9 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Basic</h4>
             <ul>
-              <li>- Up to 100 products</li>
-              <li>- Basic graphs</li>
-              <li>- Standard dashboard</li>
+              <li>Up to 100 products</li>
+              <li>Basic graphs</li>
+              <li>Standard dashboard</li>
             </ul>
             <Link to="/login" className="prices__button">
               Start
@@ -175,9 +177,9 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Medium</h4>
             <ul>
-              <li>- Up to 500 products</li>
-              <li>- Advanced graphs</li>
-              <li>- Enhanced dashboard</li>
+              <li>Up to 500 products</li>
+              <li>Advanced graphs</li>
+              <li>Enhanced dashboard</li>
             </ul>
             <Link to="/payment" className="prices__button">
               Subscribe
@@ -188,9 +190,9 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Premium</h4>
             <ul>
-              <li>- Unlimited products</li>
-              <li>- All features unlocked</li>
-              <li>- Priority support</li>
+              <li>Unlimited products</li>
+              <li>All features unlocked</li>
+              <li>Priority support</li>
             </ul>
             <Link to="/payment" className="prices__button">
               Subscribe

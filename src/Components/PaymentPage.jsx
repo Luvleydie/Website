@@ -6,7 +6,7 @@ const PaymentPage = () => {
     const navigate = useNavigate();
   
     // Estados para los campos de la tarjeta
-    const [cardNumber, setCardNumber] = useState("");
+    const [cardNumber, setCardNumber] = useState(`0000000000000000`);
     const [nameOnCard, setNameOnCard] = useState("");
     const [cvv, setCvv] = useState("");
     const [expiry, setExpiry] = useState("");
@@ -25,7 +25,7 @@ const PaymentPage = () => {
   
     // Espaciado cada 4 dígitos
     const formatCardNumber = (raw) => {
-      if (!raw) return "0000 0000 0000 0000"; // Placeholder
+       // Placeholder
       const groups = raw.match(/.{1,4}/g);
       return groups ? groups.join(" ") : raw;
     };
@@ -51,7 +51,7 @@ const PaymentPage = () => {
   
           <div className="payment-page__chip">
             <img
-              src="/Images/Chip.jpg"
+              src="/Images/Chip4.png"
               alt="Card Chip"
             />
           </div>

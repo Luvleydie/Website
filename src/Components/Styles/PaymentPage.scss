@@ -3,7 +3,8 @@
     width: 100%;
     min-height: 100vh;
     background-color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 17px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +16,7 @@
       left: 20px;
       background: none;
       border: none;
-      font-size: 1rem;
+      font-size: 1.6rem;
       cursor: pointer;
       color: #000;
   
@@ -30,7 +31,7 @@
       left: 70px;
       
       img {
-        width: 100px;
+        width: 70px;
         height: auto;
         object-fit: contain;
       }
@@ -58,12 +59,12 @@
   
     &__chip {
       position: absolute;
-      top: 60px;
-      right: 30px;
+      top: 0.1px;
+      right: 1px;
   
       img {
-        width: 50px;
-        height: 40px;
+        width: 150px;
+        height: 140px;
       }
     }
   
@@ -152,17 +153,21 @@
   
       p {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         color: #333;
       }
   
       a {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
+        font-family:  'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         color: #007BFF;
         text-decoration: none;
   
         &:hover {
           text-decoration: underline;
+          font-family:  'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+          background-color: #0c223b39;
+          border-radius: 7px;
         }
       }
     }

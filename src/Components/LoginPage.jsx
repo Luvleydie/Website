@@ -47,16 +47,16 @@ const LoginPage = () => {
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? "🙈" : "👁️"}
+                {showPassword ? "👁️" : "👁️‍🗨️"}
               </button>
             </div>
           </label>
         </div>
 
-        {/* Botón Sign In */}
+      
         <button className="login-page__signin-btn">Sign In</button>
 
-        {/* Opciones de login con Facebook / Google */}
+      
         <div className="login-page__social">
           <button className="login-page__social-btn facebook-btn">
             <span className="icon"><img src="./Images/Facebook-logo.png" alt="Facebook" width="20px"/></span> Facebook
@@ -75,7 +75,7 @@ const LoginPage = () => {
 
       {/* Footer con enlaces */}
       <footer className="login-page__footer">
-        <a href="/signup">Terms</a>
+        <a href="#!">Terms</a>
         <a href="#!">Privacy</a>
         <a href="#!">Docs</a>
         <a href="#!">Contact Alma - Zen Support</a>

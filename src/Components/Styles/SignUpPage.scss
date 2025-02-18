@@ -79,6 +79,7 @@
       max-width: 300px;
       margin-bottom: 1.2rem;
       border-radius: 40px;
+      
   
       label {
         display: flex;
@@ -91,7 +92,7 @@
           margin-top: 0.25rem;
           padding: 0.5rem;
           border: 1px solid #ccc;
-          border-radius: 5px;
+          border-radius: 11px;
         }
       }
     }
@@ -108,9 +109,10 @@
       max-width: 300px;
       margin-bottom: 1rem;
       transition: background-color 0.3s;
-  
+      
       &:hover {
-        background-color: #218838;
+        background-color: #0d81208a;
+        text-transform: capitalize;
       }
     }
   
@@ -138,9 +140,10 @@
           color: #fff;
           border: 3px solid #ffffff;
           border-radius: 40px;
+          Font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   
           &:hover {
-            background-color: #365899;
+            background-color: #365999a2;
           }
         }
   
@@ -150,6 +153,7 @@
           color: #333;
           border: 3px solid #ccc;
           border-radius: 40px;
+          Font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   
           &:hover {
             background-color: #f2f2f2;
@@ -159,15 +163,20 @@
     }
   
     &__login {
-      font-size: 0.9rem;
+      font-size: 0.89rem;
+      font-family:  'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   
       a {
+
         margin-left: 0.25rem;
         text-decoration: none;
         color: #007BFF;
+        
   
         &:hover {
           text-decoration: underline;
+          background-color: #007bff1c;
+          border-radius: 4px;
         }
       }
     }

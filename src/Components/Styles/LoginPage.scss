@@ -30,8 +30,8 @@
     background-color: #f9f9f9;
     width: 355px;
     padding: 1.4rem;
-    border-radius: 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Corrección del box-shadow */
+    border-radius: 43px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.478); /* Corrección del box-shadow */
     text-align: center;
   }
 
@@ -71,7 +71,7 @@
         margin-top: 0.3rem;
         padding: 0.72rem;
         border: 1px solid #1f1010;
-        border-radius: 40px;
+        border-radius: 11px;
       }
     }
 
@@ -83,6 +83,8 @@
       input {
         width: 100%;
         padding-right: 2.5rem; /* Espacio para el botón */
+        border-radius: 11px;
+        border-color: #1f1010;
       }
 
       .toggle-password {
@@ -119,15 +121,15 @@
     color: #ffffff;
     border: none;
     padding: 0.6rem;
-    border-radius: 80px;
+    border-radius: 17px;
     font-size: 1.1rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:  Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
     margin-top: 0.1rem;
     margin-bottom: 1.3rem;
 
     &:hover {
-      background-color: #060548;
+      background-color: #166109d7;
     }
   }
 
@@ -144,6 +146,8 @@
 
       &:hover {
         text-decoration: underline;
+        background-color: #007bff32;
+        border-radius: 7px;
       }
     }
   }
@@ -159,11 +163,12 @@
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      border: 1px solid #28A745;
+      border: 1px solid #3840b247;
       border-radius: 5px;
       padding: 0.4rem;
       cursor: pointer;
       font-size: 1rem;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       width: 100%;
       transition: background-color 0.3s;
 
@@ -177,7 +182,7 @@
         border-radius: 9rem;
 
         &:hover {
-          background-color: #365899;
+          background-color: #365999a8;
         }
       }
 
@@ -188,7 +193,7 @@
         border-radius: 9rem;
 
         &:hover {
-          background-color: #f2f2f2;
+          background-color: #b0b0b00e;
         }
       }
     }
@@ -196,19 +201,22 @@
 
   /* Footer con enlaces */
   &__footer {
-    margin-top: 2rem;
-    font-size: 0.8rem;
+    margin-top: 2.2rem;
+    margin-bottom: 0rem;
+    font-size: 0.75rem;
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     flex-wrap: wrap; /* Para que sea responsive */
     justify-content: center;
 
     a {
       color: #333;
-      text-decoration: none;
+      text-decoration: dashed;
 
       &:hover {
         text-decoration: underline;
+        background-color: #0a195e40;
+        border-radius: 4px;
       }
     }
   }
