@@ -25,13 +25,12 @@
     }
   }
 
-  /* Tarjeta central */
   &__card {
     background-color: #f9f9f9;
     width: 355px;
     padding: 1.4rem;
     border-radius: 43px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.478); /* Corrección del box-shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.478); 
     text-align: center;
   }
 
@@ -47,9 +46,7 @@
   }
 
   &__title {
-    margin: 0;
-    font-size: 1.8rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* Corrección de la cita de la fuente */
+    font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 
@@ -115,18 +112,17 @@
   }
 
   &__signin-btn {
-    display: inline-block;
-    width: 100%;
-    background-color: #04680e;
-    color: #ffffff;
+    background-color: #28A745;
+    color: #fff;
     border: none;
-    padding: 0.6rem;
-    border-radius: 17px;
-    font-size: 1.1rem;
-    font-family:  Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 40px;
+    padding: 0.75rem 1.5rem;
     cursor: pointer;
-    margin-top: 0.1rem;
-    margin-bottom: 1.3rem;
+    font-size: 1rem;
+    width: 350px;
+    max-width: 500px;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s;
 
     &:hover {
       background-color: #166109d7;
@@ -138,10 +134,11 @@
     font-family: Calibri, 'Trebuchet MS', sans-serif;
     margin-bottom: 0.1rem;
     margin-top: 1rem;
+    width: 350px;
 
     a {
       margin-left: 1.2rem;
-      text-decoration: none; /* Cambié solid a none */
+      text-decoration: solid; /* Cambié solid a none */
       color: #007BFF;
 
       &:hover {

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Styles/Homepage.scss";
+import "./Styles/Homepage.scss"
 
 const Homepage = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeServiceTab, setActiveServiceTab] = useState("Graphs");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  
 
   // Mostrar botón "scroll to top" al hacer scroll
   useEffect(() => {
@@ -37,18 +37,7 @@ const Homepage = () => {
         </div>
 
         <div className="nav-extra">
-          <div className="search-container">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-            <span className="search-icon">🔍</span>
-          </div>
           <button className="theme-toggle" onClick={toggleTheme}>
-            {isDarkMode ? /* aqui se pone un sol pero despues lol */'' : "🌙"}
           </button>
         </div>
 
@@ -60,6 +49,7 @@ const Homepage = () => {
           <Link to="/signup">
             Sign-up
           </Link>
+          <Link to="/Almacen">Start</Link>
           <a href="#prices">Prices</a>
           <a href="#about">About</a>
         </div>
@@ -83,7 +73,7 @@ const Homepage = () => {
             management for any business.
           </p>
           <div className="hero__cta-buttons">
-            <Link to = "/Login" className="start-button">Start </Link>
+            <Link to = "/Almacen" className="start-button">Start </Link>  
             <Link to="/signup" className="learn-more-button">
               Learn More
             </Link>
@@ -160,7 +150,7 @@ const Homepage = () => {
         <h2>Premium Plans</h2>
         <div className="prices__cards">
           <div className="prices__card prices__card--basic">
-            <h3>MX$23</h3>
+            <h3>MX$0</h3>
             <p>Per month</p>
             <h4>Basic</h4>
             <ul>
