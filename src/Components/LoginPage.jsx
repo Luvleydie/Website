@@ -1,14 +1,45 @@
-import React, { useState } from "react"; // Importa useState
-import { useNavigate } from "react-router-dom"; // Importa el hook useNavigate
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "./Styles/LoginPage.scss";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  // Estado para el formulario de login
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  // Función que regresa a la homepage
+  // Manejar cambios en los inputs
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Función para enviar el formulario de login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Guardar token y usuario, por ejemplo, en localStorage
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        navigate("/profile"); // Redirigir al perfil o a la homepage
+      } else {
+        alert(data.error);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error en el inicio de sesión");
+    }
+  };
+
+  // Función para regresar a la homepage
   const handleBack = () => {
-    navigate("/"); // Navega a la ruta "/"
+    navigate("/");
   };
 
   return (
@@ -17,30 +48,35 @@ const LoginPage = () => {
       <button className="login-page__back" onClick={handleBack}>
         <span className="arrow-left">◀</span>
       </button>
-      {/* Contenedor principal */}
       <div className="login-page__card">
         {/* Logo en la parte superior */}
         <div className="login-page__logo">
-          <img
-            src="./Images/Logo.png" // Corrige la ruta de la imagen
-            alt="Alma-zen logo"
-          />
+          <img src="./Images/Logo.png" alt="Alma-zen logo" />
         </div>
 
         <h2 className="login-page__title">Sign in</h2>
 
-        {/* Inputs */}
-        <div className="login-page__form">
+        {/* Formulario */}
+        <form className="login-page__form" onSubmit={handleSubmit}>
           <label className="login-page__label">
-            User
-            <input type="text" placeholder="Enter your user" />
+            Email
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              onChange={handleChange}
+              required
+            />
           </label>
           <label className="login-page__label">
             Password
             <div className="password-input-container">
               <input
                 type={showPassword ? "text" : "password"}
+                name="password"
                 placeholder="••••••••"
+                onChange={handleChange}
+                required
               />
               <button
                 type="button"
@@ -51,25 +87,30 @@ const LoginPage = () => {
               </button>
             </div>
           </label>
-        </div>
+          <button type="submit" className="login-page__signin-btn">
+            Sign In
+          </button>
+        </form>
 
-      
-        <button className="login-page__signin-btn">Sign In</button>
-
-      
         <div className="login-page__social">
           <button className="login-page__social-btn facebook-btn">
-            <span className="icon"><img src="./Images/Facebook-logo.png" alt="Facebook" width="20px"/></span> Facebook
+            <span className="icon">
+              <img src="./Images/Facebook-logo.png" alt="Facebook" width="20px" />
+            </span>{" "}
+            Facebook
           </button>
           <button className="login-page__social-btn google-btn">
-            <span className="icon"><img src="./Images/Gmail-logo.png" alt="Gmail" width="20px"/></span> Gmail
+            <span className="icon">
+              <img src="./Images/Gmail-logo.png" alt="Gmail" width="20px" />
+            </span>{" "}
+            Gmail
           </button>
         </div>
-        
-        {/* “New to Alma-zen?” */}
+
+        {/* Enlace para crear cuenta */}
         <div className="login-page__signup">
           <span>New to Alma-zen?</span>
-          <a href="/signup">Create Account</a>
+          <Link to="/signup">Create Account</Link>
         </div>
       </div>
 

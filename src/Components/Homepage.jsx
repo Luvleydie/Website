@@ -42,13 +42,15 @@ const Homepage = () => {
         </div>
 
         <div className={`nav-links ${isMobileNavOpen ? "open" : ""}`}>
-        <Link to="/login">
-            Log in
-          </Link>
-          <a href="#contact">Contact</a>
-          <Link to="/signup">
-            Sign-up
-          </Link>
+        { localStorage.getItem("authToken") ? (
+  <Link to="/profile">Profile</Link>
+) : (
+  <>
+    <Link to="/login">Log in</Link>
+    <Link to="/signup">Sign-up</Link>
+  </>
+)}
+        
           <Link to="/Almacen">Start</Link>
           <a href="#prices">Prices</a>
           <a href="#about">About</a>

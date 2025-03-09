@@ -2,23 +2,29 @@ import barraData from "../Data/control_inventario.json";
 import insumosData from "../Data/control_inventario_insumos.json";
 import "./Styles/Almacen.scss";
 import React, { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
+import { Link, useNavigate  } from "react-router-dom";
+import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend
 } from "chart.js";
 
-// Registra los componentes necesarios de ChartJS
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
+// Registrar componentes de ChartJS
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 
 const Almacen = () => {
+  const navigate = useNavigate();
+  
+  // Obtener el usuario autenticado (si existe) desde localStorage
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+
   // Estados generales
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,9 +43,9 @@ const Almacen = () => {
     STOCK: 0
   });
   const [selectedLocation, setSelectedLocation] = useState("Francisco I. Madero");
-  // Estado para seleccionar el dataset (sidebar): "barra" o "insumos"
+  // Dataset seleccionado: "barra" o "insumos"
   const [selectedTable, setSelectedTable] = useState("barra");
-  // Estado para la vista: "table", "graphs" o "transfer"
+  // Vista seleccionada: "table", "graphs" o "transfer"
   const [selectedView, setSelectedView] = useState("table");
 
   // Definir columnas para cada dataset
@@ -68,8 +74,8 @@ const Almacen = () => {
 
   const columns = selectedTable === "barra" ? columnsBarra : columnsInsumos;
 
-  // Cargar datos según el dataset seleccionado
-  useEffect(() => {
+  // Función para cargar datos según el dataset seleccionado
+  const loadData = () => {
     if (selectedTable === "barra") {
       if (barraData && barraData.barra) {
         console.log("Cargando datos de Barra:", barraData.barra);
@@ -82,6 +88,10 @@ const Almacen = () => {
       }
     }
     setCurrentPage(1);
+  };
+
+  useEffect(() => {
+    loadData();
   }, [selectedTable]);
 
   // Filtrado en todas las columnas definidas
@@ -102,7 +112,7 @@ const Almacen = () => {
     setCurrentPage(page);
   };
 
-  // Funciones para edición por celda
+  // Funciones para edición inline
   const startCellEdit = (globalIndex, field) => {
     setEditingCell({
       rowIndex: globalIndex,
@@ -155,49 +165,82 @@ const Almacen = () => {
     setCurrentPage(totalPages);
   };
 
-  // Datos para las gráficas
+  // Datos para el dashboard
+  const totalProducts = products.length;
+  const totalInventory = products.reduce(
+    (acc, p) => acc + (Number(p[selectedTable === "barra" ? "STOCK" : "Inventario"]) || 0),
+    0
+  );
+  const productsToReorder = products.filter(
+    (p) =>
+      p.Estatus &&
+      p.Estatus.toLowerCase() === "solicitar material"
+  ).length;
+
+  // Datos para las gráficas:
   const inventoryKey = selectedTable === "barra" ? "STOCK" : "Inventario";
   const labelKey = selectedTable === "barra" ? "DESCRIPCION" : "Descripcion";
+  const sortedDesc = [...products].sort((a, b) => b[inventoryKey] - a[inventoryKey]);
+  const topPieProducts = sortedDesc.slice(0, 5);
+  const pieData = {
+    labels: topPieProducts.map((p) => p[labelKey]),
+    datasets: [
+      {
+        label: "Top Stock",
+        data: topPieProducts.map((p) => p[inventoryKey]),
+        backgroundColor: [
+          "rgba(40,166,69,0.6)",
+          "rgba(54,162,235,0.6)",
+          "rgba(255,206,86,0.6)",
+          "rgba(75,192,192,0.6)",
+          "rgba(153,102,255,0.6)"
+        ]
+      }
+    ]
+  };
 
-  const sortedDesc = [...products].sort(
-    (a, b) => b[inventoryKey] - a[inventoryKey]
-  );
-  const topProducts = sortedDesc.slice(0, 5);
+  const categoryData = () => {
+    const catMap = {};
+    products.forEach((p) => {
+      const cat = selectedTable === "barra" ? p.CATEGORIA : p.Categoria;
+      const inv = p[inventoryKey] || 0;
+      catMap[cat] = (catMap[cat] || 0) + inv;
+    });
+    return {
+      labels: Object.keys(catMap),
+      datasets: [
+        {
+          label: "Inventory by Category",
+          data: Object.values(catMap),
+          backgroundColor: "rgba(54,162,235,0.6)"
+        }
+      ]
+    };
+  };
+  const categoryChartData = categoryData();
 
-  const sortedAsc = [...products].sort(
-    (a, b) => a[inventoryKey] - b[inventoryKey]
-  );
+  const sortedAsc = [...products].sort((a, b) => a[inventoryKey] - b[inventoryKey]);
   const bottomProducts = sortedAsc.slice(0, 5);
+  const requestProducts = products.filter(
+    (p) =>
+      p.Estatus &&
+      p.Estatus.toLowerCase() === "solicitar material"
+  );
+  const alertMap = new Map();
+  bottomProducts.forEach((p) => alertMap.set(p[labelKey], p));
+  requestProducts.forEach((p) => alertMap.set(p[labelKey], p));
+  const alertProducts = Array.from(alertMap.values());
 
-  const topData = {
-    labels: topProducts.map((p) => p[labelKey]),
-    datasets: [
-      {
-        label: "Highest Inventory",
-        data: topProducts.map((p) => p[inventoryKey]),
-        backgroundColor: "rgba(40,166,69,0.6)"
-      }
-    ]
-  };
-
-  const bottomData = {
-    labels: bottomProducts.map((p) => p[labelKey]),
-    datasets: [
-      {
-        label: "Lowest Inventory",
-        data: bottomProducts.map((p) => p[inventoryKey]),
-        backgroundColor: "rgba(220,53,69,0.6)"
-      }
-    ]
-  };
-
-  // Título principal según dataset
-  const mainTitle =
-    selectedTable === "barra" ? "Almacén - Barra" : "Almacén - Insumos";
+  const dashboardTitle = selectedTable === "barra" ? "Almacén - Barra" : "Almacén - Insumos";
 
   return (
     <div className="almacen-page fade-in">
-      <h2 className="almacen-title">{mainTitle}</h2>
+      {/* Botón para volver al homepage */}
+      <div className="back-button">
+        <Link to="/" className="back-link">← Home</Link>
+      </div>
+
+      <h2 className="almacen-title">{dashboardTitle}</h2>
 
       {/* Topbar */}
       <div className="almacen-topbar">
@@ -228,11 +271,20 @@ const Almacen = () => {
           </div>
         </div>
         <div className="topbar-right">
-          <img
-            src="/images/Playa_logo.jpg"
-            alt="Logo"
-            className="logo-circle"
-          />
+          {storedUser ? (
+            <img
+              src={storedUser.profileImage || "/images/default-profile.png"}
+              alt="Profile"
+              className="profile-thumbnail"
+              onClick={() => navigate("/profile")}
+            />
+          ) : (
+            <img
+              src="/images/Playa_logo.jpg"
+              alt="Logo"
+              className="logo-circle"
+            />
+          )}
         </div>
       </div>
 
@@ -277,7 +329,7 @@ const Almacen = () => {
           </ul>
         </div>
 
-        {/* Main content */}
+        {/* Main Content */}
         <div className="almacen-main">
           {selectedView === "table" && (
             <>
@@ -318,9 +370,7 @@ const Almacen = () => {
                                     }
                                     value={editingCell.value}
                                     onChange={handleCellInputChange}
-                                    onBlur={() =>
-                                      saveCellEdit(globalIndex, col.key)
-                                    }
+                                    onBlur={() => saveCellEdit(globalIndex, col.key)}
                                     onKeyDown={(e) =>
                                       handleCellKeyDown(e, globalIndex, col.key)
                                     }
@@ -333,9 +383,7 @@ const Almacen = () => {
                                     {col.editable && (
                                       <button
                                         className="cell-edit-btn"
-                                        onClick={() =>
-                                          startCellEdit(globalIndex, col.key)
-                                        }
+                                        onClick={() => startCellEdit(globalIndex, col.key)}
                                         title="Edit"
                                       >
                                         &#9998;
@@ -368,13 +416,59 @@ const Almacen = () => {
 
           {selectedView === "graphs" && (
             <div className="almacen-graphs">
-              <h3>Highest Inventory</h3>
-              <div className="chart-container">
-                <Bar data={topData} options={{ maintainAspectRatio: false }} />
+              <div className="dashboard-summary">
+                <div className="summary-card">
+                  <h4>Total Products</h4>
+                  <p>{totalProducts}</p>
+                </div>
+                <div className="summary-card">
+                  <h4>Total Inventory</h4>
+                  <p>{totalInventory}</p>
+                </div>
+                <div className="summary-card">
+                  <h4>To Reorder</h4>
+                  <p>{productsToReorder}</p>
+                </div>
+                <button className="refresh-btn" onClick={loadData}>
+                  Refresh Data
+                </button>
               </div>
-              <h3>Lowest Inventory</h3>
-              <div className="chart-container">
-                <Bar data={bottomData} options={{ maintainAspectRatio: false }} />
+              <div className="dashboard-row">
+                <div className="dashboard-chart">
+                  <h3>Top Stock Products (Pie Chart)</h3>
+                  <div className="chart-container">
+                    <Pie data={pieData} options={{ maintainAspectRatio: false }} />
+                  </div>
+                </div>
+                <div className="dashboard-chart">
+                  <h3>Inventory by Category (Bar Chart)</h3>
+                  <div className="chart-container">
+                    <Bar data={categoryChartData} options={{ maintainAspectRatio: false }} />
+                  </div>
+                </div>
+              </div>
+              <div className="dashboard-row">
+                <h3 className="alert-title">Alert: Low Stock / Request Material</h3>
+                <div className="alert-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>{selectedTable === "barra" ? "Stock" : "Inventory"}</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {alertProducts.map((p, i) => (
+                        <tr key={i}>
+                          <td>{p[labelKey]}</td>
+                          <td>{p[inventoryKey]}</td>
+                          <td>{p.Estatus}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}

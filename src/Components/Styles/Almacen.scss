@@ -15,6 +15,28 @@
   font-family: Arial, sans-serif;
 }
 
+/* Botón para volver al homepage */
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3000;
+  
+  .back-link {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #000;
+    background-color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s;
+    &:hover {
+      background-color: #eaeaea;
+    }
+  }
+}
+
 /* Main Title */
 .almacen-title {
   text-align: center;
@@ -30,7 +52,7 @@
   background-color: #fff;
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.17);
-
+  
   .topbar-left {
     flex: 1;
     select.location-dropdown {
@@ -42,7 +64,7 @@
       cursor: pointer;
     }
   }
-
+  
   .topbar-center {
     flex: 2;
     display: flex;
@@ -73,7 +95,7 @@
       }
     }
   }
-
+  
   .topbar-right {
     flex: 1;
     display: flex;
@@ -101,11 +123,12 @@
   background-color: #fff;
   box-shadow: 2px 0 4px rgba(0,0,0,0.1);
   padding: 1rem;
-
+  
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    
     li {
       margin: 1rem 0;
       padding: 0.5rem;
@@ -149,7 +172,7 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-
+  
   .almacen-main-header {
     display: flex;
     justify-content: flex-end;
@@ -168,7 +191,7 @@
       }
     }
   }
-
+  
   .almacen-table-container {
     flex: 1;
     background-color: #fff;
@@ -177,7 +200,7 @@
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 1rem;
-
+    
     .almacen-table {
       width: 100%;
       border-collapse: collapse;
@@ -200,7 +223,7 @@
       }
     }
   }
-
+  
   .almacen-pagination {
     margin-top: 1rem;
     display: flex;
@@ -222,20 +245,105 @@
       }
     }
   }
-}
-
-/* Graphs view */
-.almacen-graphs {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  h3 {
-    text-align: center;
-    color: #0C223B;
-    margin: 0.5rem 0;
-  }
-  .chart-container {
-    height: 300px;
+  
+  /* Graphs Dashboard */
+  .almacen-graphs {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    
+    .dashboard-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      .summary-card {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        min-width: 150px;
+        h4 {
+          margin: 0;
+          color: #0C223B;
+          font-size: 1rem;
+        }
+        p {
+          margin: 0.5rem 0 0;
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #28A745;
+        }
+      }
+      .refresh-btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+    
+    .dashboard-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    
+    .dashboard-chart {
+      flex: 1;
+      min-width: 280px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      h3 {
+        text-align: center;
+        color: #0C223B;
+        margin: 0.5rem 0;
+      }
+      .chart-container {
+        height: 300px;
+      }
+    }
+    
+    .alert-title {
+      text-align: center;
+      background-color: #dc3545;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 4px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    
+    .alert-table {
+      margin: 0 auto;
+      table {
+        border-collapse: collapse;
+        width: 90%;
+        th, td {
+          border: 1px solid #dc3545;
+          padding: 8px;
+          text-align: center;
+        }
+        th {
+          background-color: #f8d7da;
+          color: #721c24;
+        }
+        td {
+          background-color: #f1d3d8;
+          color: #721c24;
+        }
+      }
+    }
   }
 }
 
