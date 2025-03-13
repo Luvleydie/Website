@@ -7,6 +7,16 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Estilo para la miniatura del perfil */
+.profile-thumbnail {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #0C223B;
+  cursor: pointer;
+}
+
 .almacen-page {
   display: flex;
   flex-direction: column;
@@ -37,7 +47,7 @@
   }
 }
 
-/* Main Title */
+/* Título principal */
 .almacen-title {
   text-align: center;
   margin: 1rem 0;
@@ -111,7 +121,7 @@
   }
 }
 
-/* Content: Sidebar + Main */
+/* Contenedor principal: Sidebar + Main */
 .almacen-content {
   display: flex;
   flex: 1;
@@ -224,29 +234,38 @@
     }
   }
   
+  /* Paginación circular */
   .almacen-pagination {
     margin-top: 1rem;
     display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
+    justify-content: center; /* Centra los botones */
+    gap: 1rem;
+
     .page-button {
-      padding: 0.4rem 0.8rem;
-      background-color: #ccc;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ddd;
       border: none;
-      border-radius: 4px;
+      font-size: 1rem;
+      color: #333;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: transform 0.2s, background-color 0.3s;
+
       &:hover {
-        background-color: #bbb;
+        background-color: #ccc;
+        transform: scale(1.05);
       }
+
       &.active {
         background-color: #0C223B;
         color: #fff;
+        transform: scale(1.1);
       }
     }
   }
   
-  /* Graphs Dashboard */
+  /* Sección Graphs (Dashboard) */
   .almacen-graphs {
     display: flex;
     flex-direction: column;

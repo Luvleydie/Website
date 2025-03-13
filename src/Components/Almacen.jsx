@@ -1,8 +1,5 @@
-import barraData from "../Data/control_inventario.json";
-import insumosData from "../Data/control_inventario_insumos.json";
-import "./Styles/Almacen.scss";
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate  } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -15,9 +12,12 @@ import {
   Legend
 } from "chart.js";
 
+import barraData from "../Data/control_inventario.json";
+import insumosData from "../Data/control_inventario_insumos.json";
+import "./Styles/Almacen.scss";
+
 // Registrar componentes de ChartJS
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
-
 
 const Almacen = () => {
   const navigate = useNavigate();
@@ -74,8 +74,8 @@ const Almacen = () => {
 
   const columns = selectedTable === "barra" ? columnsBarra : columnsInsumos;
 
-  // Función para cargar datos según el dataset seleccionado
-  const loadData = () => {
+  // Cargar datos según el dataset seleccionado
+  const loadData = useCallback(() => {
     if (selectedTable === "barra") {
       if (barraData && barraData.barra) {
         console.log("Cargando datos de Barra:", barraData.barra);
@@ -88,11 +88,11 @@ const Almacen = () => {
       }
     }
     setCurrentPage(1);
-  };
+  }, [selectedTable]);
 
   useEffect(() => {
     loadData();
-  }, [selectedTable]);
+  }, [loadData]);
 
   // Filtrado en todas las columnas definidas
   const filteredProducts = products.filter((item) => {
@@ -167,8 +167,9 @@ const Almacen = () => {
 
   // Datos para el dashboard
   const totalProducts = products.length;
+  const inventoryKey = selectedTable === "barra" ? "STOCK" : "Inventario";
   const totalInventory = products.reduce(
-    (acc, p) => acc + (Number(p[selectedTable === "barra" ? "STOCK" : "Inventario"]) || 0),
+    (acc, p) => acc + (Number(p[inventoryKey]) || 0),
     0
   );
   const productsToReorder = products.filter(
@@ -178,8 +179,8 @@ const Almacen = () => {
   ).length;
 
   // Datos para las gráficas:
-  const inventoryKey = selectedTable === "barra" ? "STOCK" : "Inventario";
   const labelKey = selectedTable === "barra" ? "DESCRIPCION" : "Descripcion";
+  // Pie chart: top 5
   const sortedDesc = [...products].sort((a, b) => b[inventoryKey] - a[inventoryKey]);
   const topPieProducts = sortedDesc.slice(0, 5);
   const pieData = {
@@ -199,6 +200,7 @@ const Almacen = () => {
     ]
   };
 
+  // Bar chart: agrupar inventario por categoría
   const categoryData = () => {
     const catMap = {};
     products.forEach((p) => {
@@ -219,6 +221,7 @@ const Almacen = () => {
   };
   const categoryChartData = categoryData();
 
+  // Alert data
   const sortedAsc = [...products].sort((a, b) => a[inventoryKey] - b[inventoryKey]);
   const bottomProducts = sortedAsc.slice(0, 5);
   const requestProducts = products.filter(
@@ -371,9 +374,7 @@ const Almacen = () => {
                                     value={editingCell.value}
                                     onChange={handleCellInputChange}
                                     onBlur={() => saveCellEdit(globalIndex, col.key)}
-                                    onKeyDown={(e) =>
-                                      handleCellKeyDown(e, globalIndex, col.key)
-                                    }
+                                    onKeyDown={(e) => handleCellKeyDown(e, globalIndex, col.key)}
                                     className="cell-input"
                                     autoFocus
                                   />
@@ -400,6 +401,7 @@ const Almacen = () => {
                   </tbody>
                 </table>
               </div>
+              {/* Paginación circular */}
               <div className="almacen-pagination">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <button
@@ -482,6 +484,7 @@ const Almacen = () => {
         </div>
       </div>
 
+      {/* Modal para agregar producto */}
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal">
