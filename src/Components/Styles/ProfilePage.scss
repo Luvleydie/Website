@@ -1,6 +1,27 @@
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInPayment {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .profile-page {
@@ -10,7 +31,7 @@
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  animation: fadeIn 0.5s ease-in-out;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .profile-header {
@@ -20,12 +41,12 @@
   color: #fff;
   padding: 1rem 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  
+
   .profile-back,
   .profile-logout {
     background: transparent;
@@ -38,22 +59,34 @@
       color: #ffcc00;
     }
   }
-  
+
   h1 {
     margin: 0;
     font-size: 1.5rem;
   }
 }
 
+.notification {
+  background-color: #2f4c6c;
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
 .profile-container {
   width: 100%;
   max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .profile-card {
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   gap: 2rem;
   padding: 2rem;
@@ -70,7 +103,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   .profile-image {
     width: 150px;
     height: 150px;
@@ -78,13 +111,13 @@
     border-radius: 50%;
     border: 3px solid #0c223b;
   }
-  
+
   .image-options {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     .upload-label {
       font-size: 0.9rem;
       color: #0c223b;
@@ -94,7 +127,7 @@
         text-decoration: underline;
       }
     }
-    
+
     .file-input,
     .profile-image-input {
       padding: 0.4rem;
@@ -113,7 +146,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   .form-group {
     display: flex;
     flex-direction: column;
@@ -134,7 +167,7 @@
       }
     }
   }
-  
+
   .update-btn {
     margin-top: 1rem;
     padding: 0.8rem;
@@ -151,41 +184,210 @@
   }
 }
 
-/* Sección de información de pago */
+/* Payment Info Section */
 .payment-info-section {
-  margin-top: 2rem;
   width: 100%;
   max-width: 800px;
   text-align: center;
-  
-  .payment-card {
-    background-color: #f1f1f1;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    h3 {
-      margin-bottom: 1rem;
-      font-size: 1.3rem;
-      color: #0c223b;
-    }
-    p {
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      color: #333;
+  animation: fadeInPayment 0.7s ease-in-out;
+
+  .payment-card,
+  .payment-form {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .payment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #0c223b;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0.8rem 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  strong {
+    font-weight: 700;
+    color: #0c223b;
+  }
+
+  .edit-btn,
+  .update-btn,
+  .cancel-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 1rem;
+  }
+
+  .edit-btn {
+    background-color: #007bff;
+    color: #fff;
+    &:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
     }
   }
-  
+
+  .update-btn {
+    background-color: #0c223b;
+    color: #fff;
+    &:hover {
+      background-color: #2f4c6c;
+      transform: scale(1.05);
+    }
+  }
+
+  .cancel-btn {
+    background-color: #ccc;
+    color: #333;
+    &:hover {
+      background-color: #bbb;
+      transform: scale(1.05);
+    }
+  }
+
   .add-payment-btn {
     background-color: #28a745;
     border: none;
     border-radius: 20px;
     color: #fff;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 2rem;
+    width: 100%;
     &:hover {
       background-color: #218838;
+      transform: scale(1.05);
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 1.2rem 0;
+    width: 100%;
+  }
+
+  .form-group input {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, transform 0.3s;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    &:focus {
+      border-color: #0c223b;
+      outline: none;
+      transform: scale(1.05);
+    }
+  }
+
+  .form-group label {
+    font-size: 1rem;
+    color: #0c223b;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Activity Section */
+.activity-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+
+  h3 {
+    font-size: 1.5rem;
+    color: #0c223b;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: disc;
+    margin-left: 2rem;
+    text-align: left;
+    li {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+/* Security Section */
+.security-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+  text-align: left;
+
+  h3 {
+    font-size: 1.5rem;
+    color: #0c223b;
+    margin-bottom: 1rem;
+  }
+
+  .security-item {
+    font-size: 1rem;
+    color: #333;
+    label {
+      cursor: pointer;
+      input {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+/* Delete Account Section */
+.delete-account-section {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-top: 2rem;
+
+  .delete-account-btn {
+    background-color: #dc3545;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    &:hover {
+      background-color: #a71d2a;
+      transform: scale(1.05);
     }
   }
 }

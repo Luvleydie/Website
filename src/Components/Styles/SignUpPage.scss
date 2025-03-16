@@ -1,184 +1,186 @@
 .signup-page {
-    display: flex;
-    min-height: 100vh;
-    font-family: sans-serif;
-    position: relative; /* Para posicionar la flecha con absoluta */
-  
-    /* Flecha para volver al login */
-    &__back {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+
+  &__back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #333;
+    .arrow-left {
+      font-size: 1.6rem;
+    }
+  }
+
+  &__left {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(to bottom, #0c223b, #000);
+    overflow: hidden;
+    img {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #333; /* Flecha negra */
-  
-      .arrow-left {
-        font-size: 1.2rem;
-      }
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      object-fit: cover;
     }
-  
-    &__left {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-  
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-  
-      &__overlay {
-        position: absolute;
-        bottom: 30px;
-        left: 30px;
-        color: #fff;
-        width: 70%;
-        font-size: 1.2rem;
-        line-height: 1.4;
-      }
+    &__overlay {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 1.4rem;
+      text-align: center;
+      width: 80%;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      font-weight: bold;
     }
-  
-    &__right {
-      flex: 1;
-      background-color: #fff;
+  }
+
+  &__right {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  &__logo {
+    margin-bottom: 1.5rem;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #0c223b;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 1.2rem;
+    label {
       display: flex;
       flex-direction: column;
+      font-size: 1rem;
+      color: #333;
+      input {
+        margin-top: 0.3rem;
+        padding: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 11px;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__main-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 1.2rem;
+    transition: background-color 0.3s;
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+  &__social {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    .signup-page__social-btn {
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
-    }
-  
-    &__logo {
-      margin-bottom: 1rem;
-  
-      img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-    }
-  
-    &__title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-      color: #000000;
-    }
-  
-    &__form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 1.2rem;
-      border-radius: 40px;
-      
-  
-      label {
-        display: flex;
-        flex-direction: column;
-        font-size: 0.9rem;
-        color: #333;
-        border-radius: 40px;
-  
-        input {
-          margin-top: 0.25rem;
-          padding: 0.5rem;
-          border: 1px solid #ccc;
-          border-radius: 11px;
-        }
-      }
-    }
-  
-    &__main-btn {
-      background-color: #28A745;
-      color: #fff;
+      gap: 0.5rem;
       border: none;
       border-radius: 40px;
       padding: 0.75rem 1.5rem;
       cursor: pointer;
-      font-size: 1rem;
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 1rem;
-      transition: background-color 0.3s;
-      
+      font-size: 1.1rem;
+      transition: background-color 0.3s, transform 0.3s;
+      width: 48%;
+    }
+    .facebook-btn {
+      background-color: #4267b2;
+      color: #fff;
+      border: 3px solid #fff;
       &:hover {
-        background-color: #0d81208a;
-        text-transform: capitalize;
+        background-color: #365999;
+        transform: scale(1.05);
       }
     }
-  
-    &__social {
-      display: flex;
-      flex-direction: row;
-      gap: 1rem;
-      margin-bottom: 1rem;
-  
-      .signup-page__social-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        border: none;
-        border-radius: 5px;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s;
-  
-        /* Facebook */
-        &.facebook-btn {
-          background-color: #4267B2;
-          color: #fff;
-          border: 3px solid #ffffff;
-          border-radius: 40px;
-          Font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  
-          &:hover {
-            background-color: #365999a2;
-          }
-        }
-  
-        /* Gmail */
-        &.google-btn {
-          background-color: #fff;
-          color: #333;
-          border: 3px solid #ccc;
-          border-radius: 40px;
-          Font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  
-          &:hover {
-            background-color: #f2f2f2;
-          }
-        }
-      }
-    }
-  
-    &__login {
-      font-size: 0.89rem;
-      font-family:  'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  
-      a {
-
-        margin-left: 0.25rem;
-        text-decoration: none;
-        color: #007BFF;
-        
-  
-        &:hover {
-          text-decoration: underline;
-          background-color: #007bff1c;
-          border-radius: 4px;
-        }
+    .google-btn {
+      background-color: #fff;
+      color: #333;
+      border: 3px solid #ccc;
+      &:hover {
+        background-color: #f2f2f2;
+        transform: scale(1.05);
       }
     }
   }
-  
+
+  &__login {
+    font-size: 1rem;
+    text-align: center;
+    color: #333;
+    a {
+      margin-left: 0.5rem;
+      text-decoration: none;
+      color: #007bff;
+      &:hover {
+        text-decoration: underline;
+        background-color: #007bff32;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    &__left,
+    &__right {
+      width: 100%;
+      height: 300px;
+    }
+    .signup-page__form {
+      max-width: 100%;
+    }
+    .signup-page__title {
+      font-size: 1.2rem;
+    }
+  }
+}

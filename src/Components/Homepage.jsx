@@ -156,7 +156,7 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Basic</h4>
             <ul>
-              <li>Up to 100 products</li>
+              <li>Up to 50 products</li>
               <li>Basic graphs</li>
               <li>Standard dashboard</li>
             </ul>
@@ -169,7 +169,7 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Medium</h4>
             <ul>
-              <li>Up to 500 products</li>
+              <li>Up to 200 products</li>
               <li>Advanced graphs</li>
               <li>Enhanced dashboard</li>
             </ul>
@@ -182,7 +182,7 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Premium</h4>
             <ul>
-              <li>Unlimited products</li>
+              <li>Up to 1000 products</li>
               <li>All features unlocked</li>
               <li>Priority support</li>
             </ul>

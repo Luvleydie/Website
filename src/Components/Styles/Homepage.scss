@@ -7,6 +7,120 @@
   overflow-x: hidden;
   scroll-behavior: smooth;
 
+  /* Efecto de transición suave en el hero */
+.hero__content h1 {
+  animation: fadeIn 1.5s ease-out;
+}
+
+.hero__content p {
+  animation: fadeIn 2s ease-out;
+}
+
+.hero__cta-buttons a {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hero__cta-buttons a:hover {
+  transform: scale(1.1);
+}
+
+/* Agregar animación de entrada a los elementos de servicios */
+.services__title {
+  animation: slideInLeft 1s ease-out;
+}
+
+.services__tabs span {
+  transition: color 0.3s ease;
+}
+
+.services__tabs span.active {
+  color: #007bff;
+}
+
+.services__tabs span:hover {
+  color: #007bff;
+  cursor: pointer;
+}
+
+/* Animación de los cards de precios */
+.prices__card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prices__card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.prices__button {
+  transition: background-color 0.3s ease;
+}
+
+.prices__button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Efectos de hover en iconos sociales */
+.contact__icons a {
+  transition: transform 0.3s ease;
+}
+
+.contact__icons a:hover {
+  transform: scale(1.2);
+}
+
+/* Animaciones de entrada en la sección de contacto */
+.contact__left {
+  animation: fadeIn 2s ease-out;
+}
+
+.contact__right {
+  animation: fadeIn 2s ease-out;
+  animation-delay: 0.5s;
+}
+
+/* Añadir animación para el scroll to top */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.scroll-top:hover {
+  background-color: #0056b3;
+}
+
+/* Definición de las animaciones clave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
   &.light {
     background-color: #f5f5f5;
     color: #333;

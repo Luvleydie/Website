@@ -1,3 +1,14 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .payment-page {
   position: relative;
   width: 100%;
@@ -161,5 +172,14 @@
         border-radius: 7px;
       }
     }
+  }
+}
+/* Responsividad */
+@media (max-width: 480px) {
+  .payment-page__card {
+    padding: 1rem;
+  }
+  .payment-page__inputs {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,158 +1,133 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import "./Styles/SignUpPage.scss";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  // Estado para el formulario de registro
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phone: ""
-  });
-
-  // Manejo de cambios en los inputs
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Función de envío del formulario
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Validación simple de contraseña
-    if (formData.password !== formData.confirmPassword) {
-      alert("Las contraseñas no coinciden");
-      return;
-    }
-    // Realiza una petición POST al endpoint de registro del backend
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.phone
-        })
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert("Registro exitoso");
-        navigate("/login"); // Redirige al login
-      } else {
-        alert(data.error);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error en el registro");
-    }
-  };
 
   // Función para regresar al login
   const handleBack = () => {
     navigate("/login");
   };
 
+  // Callback cuando Facebook devuelve la respuesta
+  const responseFacebook = async (response) => {
+    // Verifica que se reciba un token
+    if (response.accessToken) {
+      try {
+        const backendResponse = await fetch("http://localhost:5000/api/auth/facebook", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            accessToken: response.accessToken,
+            userID: response.userID,
+            name: response.name,
+            email: response.email,
+            picture: response.picture?.data?.url,
+          }),
+        });
+        const data = await backendResponse.json();
+        if (backendResponse.ok) {
+          // Guarda el token y el usuario, y redirige al perfil
+          localStorage.setItem("authToken", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          navigate("/profile");
+        } else {
+          alert(data.error || "Error creando la cuenta con Facebook.");
+        }
+      } catch (err) {
+        console.error("Error en autenticación con Facebook:", err);
+        alert("Error conectando con el servidor.");
+      }
+    } else {
+      alert("No se pudo autenticar con Facebook.");
+    }
+  };
+
   return (
     <div className="signup-page">
-      {/* Flecha en la parte superior izquierda para volver al login */}
-      <button className="login-page__back" onClick={handleBack}>
+      {/* Botón para regresar al login */}
+      <button className="signup-page__back" onClick={handleBack}>
         <span className="arrow-left">◀</span>
       </button>
 
       {/* Lado izquierdo: imagen y texto */}
       <div className="signup-page__left">
-        <img src="Images/Worker.png" alt="Warehouse with inventory" />
+        <img src="/Images/Worker.png" alt="Warehouse with inventory" />
         <div className="signup-page__overlay">
-          <h2>
-            “Control, organize and optimize your inventory in an efficient way.”
-          </h2>
+          
         </div>
       </div>
 
-      {/* Lado derecho: formulario */}
+      {/* Lado derecho: formulario de registro */}
       <div className="signup-page__right">
         <div className="signup-page__logo">
-          <img src="Images/Logo.png" alt="Alma-zen logo" />
+          <img src="/Images/Logo.png" alt="Alma‑Zen logo" />
         </div>
         <h2 className="signup-page__title">Create your account</h2>
 
-        <form className="signup-page__form" onSubmit={handleSubmit}>
+        <form className="signup-page__form">
           <label>
             Username
-            <input
-              type="text"
-              name="username"
-              placeholder="Enter your username"
-              onChange={handleChange}
-              required
-            />
+            <input type="text" placeholder="Enter your username" required />
           </label>
           <label>
             Email
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              onChange={handleChange}
-              required
-            />
+            <input type="email" placeholder="Enter your email" required />
           </label>
           <label>
             Password
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              onChange={handleChange}
-              required
-            />
+            <input type="password" placeholder="••••••••" required />
           </label>
           <label>
             Confirm Password
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              onChange={handleChange}
-              required
-            />
+            <input type="password" placeholder="••••••••" required />
           </label>
           <label>
             Phone Number
-            <input
-              type="tel"
-              name="phone"
-              placeholder="e.g. +51 618 274 3609"
-              onChange={handleChange}
-            />
+            <input type="tel" placeholder="e.g. +51 618 274 3609" />
           </label>
-          {/* Botón principal */}
           <button type="submit" className="signup-page__main-btn">
             Sign Up
           </button>
         </form>
 
-        {/* Botones de redes sociales */}
+        {/* Botones de redes sociales para registro */}
         <div className="signup-page__social">
-          <button className="signup-page__social-btn facebook-btn">
-            <span className="icon">
-              <img src="/Images/Facebook-logo.png" alt="Facebook" width="20px" />
-            </span>{" "}
-            Facebook
-          </button>
+          <FacebookLogin
+            appId="YOUR_FACEBOOK_APP_ID" // Reemplaza con tu App ID de Facebook
+            autoLoad={false}
+            callback={responseFacebook}
+            fields="name,email,picture"
+            render={(renderProps) => (
+              <button
+                className="signup-page__social-btn facebook-btn"
+                onClick={renderProps.onClick}
+              >
+                <span className="icon">
+                  <img
+                    src="/Images/Facebook-logo.png"
+                    alt="Facebook"
+                    width="20px"
+                  />
+                </span>
+                Sign up with Facebook
+              </button>
+            )}
+          />
           <button className="signup-page__social-btn google-btn">
             <span className="icon">
-              <img src="/Images/Gmail-logo.png" alt="Gmail" width="20px" />
-            </span>{" "}
-            Gmail
+              <img
+                src="/Images/Gmail-logo.png"
+                alt="Gmail"
+                width="20px"
+              />
+            </span>
+            Sign up with Gmail
           </button>
         </div>
 
-        {/* Enlace para regresar al login */}
         <div className="signup-page__login">
           <span>Already have an account?</span>
           <Link to="/login">Log in</Link>
