@@ -91,7 +91,34 @@ const Almacen = () => {
     "Tortillas",
     "Verdura"
   ];
-  const udmOptions = ["Unit", "Kg", "Liters", "Pieces", "Pack", "N/A"];
+  const udmOptions = [
+    'Pz', 
+    'Piezas', 
+    'Cajas', 
+    'Rollos', 
+    'Cartón de 960ml', 
+    'Bote de 1.8L', 
+    'Frasco de 1.4L', 
+    'Botes de 320gr.', 
+    'Lata de 3.65kg', 
+    'Latas',
+    'Charolas 12 panes', 
+    'Caja 500gr', 
+    'Kilo',
+    'Bolsas de 6 nuggets', 
+    'Porcionada', 
+    'Bolsa de 2kg',
+    'Bolsitas 50gr', 
+    'Rebanadas', 
+    'Cabeza', 
+    'Litros', 
+    'Bolsita 50gr', 
+    'Sacos', 
+    'Paquete 165', 
+    'Paquete 170',
+    'Paquete de 30', 
+    'Pz (Cabeza)',
+    "N/A"];
 
   // Definición de campos desplegables para edición inline en "Barra"
   const dropdownFields = {
