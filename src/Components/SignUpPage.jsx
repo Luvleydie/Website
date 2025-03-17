@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+
+
 import "./Styles/SignUpPage.scss";
 
 const SignUpPage = () => {

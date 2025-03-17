@@ -33,6 +33,74 @@ const Almacen = () => {
   const navigate = useNavigate();
   const storedUser = JSON.parse(localStorage.getItem("user"));
 
+  // Opciones para los menús desplegables en "Barra"
+  const supplierOptions = [
+    "Carmelita",
+    "Sanito",
+    "Gamesa",
+    "Venegas",
+    "CityClub",
+    "Aguas Frescas",
+    "Grupo Modelo",
+    "CocaCola",
+    "Charal",
+    "Muñoz",
+    "Abuelo",
+    "CarneMart",
+    "Tigre Feliz",
+    "N/A"
+  ];
+  const almacenOptions = [
+    "Piso 1",
+    "Piso 2",
+    "Piso 3",
+    "Piso 4",
+    "Piso 5",
+    "Refrigerador Agua",
+    "Refrigerador Cerveza",
+    "Refrigerador Coca Cola",
+    "Refrigerador Pescado",
+    "Refrigerador Verdura",
+    "Barra",
+    "Alacena",
+    "Congelador 1",
+    "Congelador 2"
+  ];
+  const categoryOptions = [
+    "Desechables",
+    "Salsas y Aderezos",
+    "Limpieza",
+    "Servicio",
+    "Bebidas",
+    "Latas",
+    "Aceites",
+    "Postres",
+    "Refrescos",
+    "Cervezas",
+    "Alcohol",
+    "Pan",
+    "Sopas",
+    "Especias",
+    "Verduras",
+    "Pescados y Mariscos",
+    "Insumos Preparados",
+    "Proteínas",
+    "Complementos",
+    "Lácteos",
+    "Embutidos",
+    "Tortillas",
+    "Verdura"
+  ];
+  const udmOptions = ["Unit", "Kg", "Liters", "Pieces", "Pack", "N/A"];
+
+  // Definición de campos desplegables para edición inline en "Barra"
+  const dropdownFields = {
+    PROVEEDOR: supplierOptions,
+    ALMACEN: almacenOptions,
+    CATEGORIA: categoryOptions,
+    UDM: udmOptions,
+  };
+
   // Estados generales
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,7 +140,7 @@ const Almacen = () => {
     { key: "PROVEEDOR", label: "Supplier", editable: true },
     { key: "ENTRADA", label: "Entrance", editable: true },
     { key: "STOCK", label: "Stock", editable: true },
-    { key: "UDM", label: "UDM", editable: false }
+    { key: "UDM", label: "UDM", editable: true }
   ];
 
   const columnsInsumos = [
@@ -127,7 +195,7 @@ const Almacen = () => {
   // Clave para stock/inventario según tabla
   const inventoryKey = selectedTable === "barra" ? "STOCK" : "Inventario";
 
-  // Ordenamiento (por nombre o stock)
+  // Ordenamiento
   const sortedProducts = filteredProducts.slice().sort((a, b) => {
     if (sortOption === "name-asc") {
       return (a[columns[1].key] || "").toString().localeCompare((b[columns[1].key] || "").toString());
@@ -307,18 +375,13 @@ const Almacen = () => {
 
   // Dashboard y gráficas (cálculos)
   const totalProductsCount = products.length;
-  const totalInventory = products.reduce(
-    (acc, p) => acc + (Number(p[inventoryKey]) || 0),
-    0
-  );
+  const totalInventory = products.reduce((acc, p) => acc + (Number(p[inventoryKey]) || 0), 0);
   const productsToReorder = products.filter(
     (p) => p.Estatus && p.Estatus.toLowerCase() === "solicitar material"
   ).length;
 
   const labelKey = selectedTable === "barra" ? "DESCRIPCION" : "Descripcion";
-  const sortedDesc = [...products].sort(
-    (a, b) => (b[inventoryKey] || 0) - (a[inventoryKey] || 0)
-  );
+  const sortedDesc = [...products].sort((a, b) => (b[inventoryKey] || 0) - (a[inventoryKey] || 0));
   const topPieProducts = sortedDesc.slice(0, 5);
   const pieData = {
     labels: topPieProducts.map((p) => p[labelKey] || "N/A"),
@@ -371,9 +434,7 @@ const Almacen = () => {
     ]
   };
 
-  const sortedAsc = [...products].sort(
-    (a, b) => (a[inventoryKey] || 0) - (b[inventoryKey] || 0)
-  );
+  const sortedAsc = [...products].sort((a, b) => (a[inventoryKey] || 0) - (b[inventoryKey] || 0));
   const bottomProducts = sortedAsc.slice(0, 5);
   const requestProducts = products.filter(
     (p) => p.Estatus && p.Estatus.toLowerCase() === "solicitar material"
@@ -387,15 +448,12 @@ const Almacen = () => {
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
     .slice(0, 5);
 
-  const dashboardTitle =
-    selectedTable === "barra" ? "Almacén - Barra" : "Almacén - Insumos";
+  const dashboardTitle = selectedTable === "barra" ? "Almacén - Barra" : "Almacén - Insumos";
 
   return (
     <div className="almacen-page fade-in">
       <div className="back-button">
-        <Link to="/" className="back-link">
-          ← Home
-        </Link>
+        <Link to="/" className="back-link">← Home</Link>
       </div>
 
       <h2 className="almacen-title">{dashboardTitle}</h2>
@@ -528,6 +586,31 @@ const Almacen = () => {
                         <tr key={item._id || globalIndex}>
                           {columns.map((col) => {
                             const cellValue = item[col.key] || "";
+                            // Para "Barra", si se edita alguno de los campos dropdown
+                            if (
+                              selectedTable === "barra" &&
+                              ["PROVEEDOR", "ALMACEN", "CATEGORIA", "UDM"].includes(col.key) &&
+                              editingCell &&
+                              editingCell.rowIndex === globalIndex &&
+                              editingCell.field === col.key
+                            ) {
+                              const options = dropdownFields[col.key] || [];
+                              return (
+                                <td key={col.key}>
+                                  <select
+                                    value={editingCell.value}
+                                    onChange={(e) => handleCellInputChange(e)}
+                                    onBlur={() => saveCellEdit(globalIndex, col.key)}
+                                  >
+                                    {options.map((option) => (
+                                      <option key={option} value={option}>
+                                        {option}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </td>
+                              );
+                            }
                             return (
                               <td key={col.key}>
                                 {editingCell &&
@@ -638,7 +721,9 @@ const Almacen = () => {
               </div>
 
               <div className="dashboard-row">
-                <h3 className="alert-title">Alert: Low Stock / Request Material</h3>
+                <h3 className="alert-title">
+                  Alert: Low Stock / Request Material
+                </h3>
                 <div className="alert-table">
                   <table>
                     <thead>
@@ -702,7 +787,7 @@ const Almacen = () => {
             <div className="modal-form">
               {selectedTable === "barra" ? (
                 <>
-                  {/* Para Barra, se omite el campo Code */}
+                  {/* Para Barra: omitimos Code, y usamos selects para campos dropdown */}
                   <label>
                     Name:
                     <input
@@ -713,35 +798,55 @@ const Almacen = () => {
                   </label>
                   <label>
                     Category:
-                    <input
-                      type="text"
+                    <select
                       value={newProduct.CATEGORIA}
                       onChange={(e) => handleAddModalChange(e, "CATEGORIA")}
-                    />
+                    >
+                      {categoryOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     Almacen:
-                    <input
-                      type="text"
+                    <select
                       value={newProduct.ALMACEN}
                       onChange={(e) => handleAddModalChange(e, "ALMACEN")}
-                    />
+                    >
+                      {almacenOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     Supplier:
-                    <input
-                      type="text"
+                    <select
                       value={newProduct.PROVEEDOR}
                       onChange={(e) => handleAddModalChange(e, "PROVEEDOR")}
-                    />
+                    >
+                      {supplierOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     UDM:
-                    <input
-                      type="text"
+                    <select
                       value={newProduct.UDM}
                       onChange={(e) => handleAddModalChange(e, "UDM")}
-                    />
+                    >
+                      {udmOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     Entrance:
@@ -762,7 +867,7 @@ const Almacen = () => {
                 </>
               ) : (
                 <>
-                  {/* Para Insumos, se muestra el campo Code */}
+                  {/* Para Insumos: mantenemos el formulario tradicional */}
                   <label>
                     Code:
                     <input
