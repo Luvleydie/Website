@@ -33,101 +33,6 @@ const Almacen = () => {
   const navigate = useNavigate();
   const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  // Opciones para los menús desplegables en "Barra"
-  const supplierOptions = [
-    "Carmelita",
-    "Sanito",
-    "Gamesa",
-    "Venegas",
-    "CityClub",
-    "Aguas Frescas",
-    "Grupo Modelo",
-    "CocaCola",
-    "Charal",
-    "Muñoz",
-    "Abuelo",
-    "CarneMart",
-    "Tigre Feliz",
-    "N/A"
-  ];
-  const almacenOptions = [
-    "Piso 1",
-    "Piso 2",
-    "Piso 3",
-    "Piso 4",
-    "Piso 5",
-    "Refrigerador Agua",
-    "Refrigerador Cerveza",
-    "Refrigerador Coca Cola",
-    "Refrigerador Pescado",
-    "Refrigerador Verdura",
-    "Barra",
-    "Alacena",
-    "Congelador 1",
-    "Congelador 2"
-  ];
-  const categoryOptions = [
-    "Desechables",
-    "Salsas y Aderezos",
-    "Limpieza",
-    "Servicio",
-    "Bebidas",
-    "Latas",
-    "Aceites",
-    "Postres",
-    "Refrescos",
-    "Cervezas",
-    "Alcohol",
-    "Pan",
-    "Sopas",
-    "Especias",
-    "Verduras",
-    "Pescados y Mariscos",
-    "Insumos Preparados",
-    "Proteínas",
-    "Complementos",
-    "Lácteos",
-    "Embutidos",
-    "Tortillas",
-    "Verdura"
-  ];
-  const udmOptions = [
-    'Pz', 
-    'Piezas', 
-    'Cajas', 
-    'Rollos', 
-    'Cartón de 960ml', 
-    'Bote de 1.8L', 
-    'Frasco de 1.4L', 
-    'Botes de 320gr.', 
-    'Lata de 3.65kg', 
-    'Latas',
-    'Charolas 12 panes', 
-    'Caja 500gr', 
-    'Kilo',
-    'Bolsas de 6 nuggets', 
-    'Porcionada', 
-    'Bolsa de 2kg',
-    'Bolsitas 50gr', 
-    'Rebanadas', 
-    'Cabeza', 
-    'Litros', 
-    'Bolsita 50gr', 
-    'Sacos', 
-    'Paquete 165', 
-    'Paquete 170',
-    'Paquete de 30', 
-    'Pz (Cabeza)',
-    "N/A"];
-
-  // Definición de campos desplegables para edición inline en "Barra"
-  const dropdownFields = {
-    PROVEEDOR: supplierOptions,
-    ALMACEN: almacenOptions,
-    CATEGORIA: categoryOptions,
-    UDM: udmOptions,
-  };
-
   // Estados generales
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -149,42 +54,42 @@ const Almacen = () => {
     STOCK: 0
   });
 
-  // Estados de selección
+ 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+
+
   const [selectedLocation, setSelectedLocation] = useState("Francisco I. Madero");
   const [selectedTable, setSelectedTable] = useState("barra"); // "barra" o "insumos"
   const [selectedView, setSelectedView] = useState("table"); // "table", "graphs" o "transfer"
 
-  // Estados para el modal de confirmación de eliminación
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
-
-  // Definir columnas (sin mostrar ID)
+  
   const columnsBarra = [
     { key: "CODIGO", label: "Code", editable: false },
-    { key: "DESCRIPCION", label: "Name", editable: true },
-    { key: "CATEGORIA", label: "Category", editable: true },
+    { key: "DESCRIPCION", label: "Nombre", editable: true },
+    { key: "CATEGORIA", label: "Categoría", editable: true },
     { key: "ALMACEN", label: "Almacen", editable: true },
-    { key: "PROVEEDOR", label: "Supplier", editable: true },
-    { key: "ENTRADA", label: "Entrance", editable: true },
+    { key: "PROVEEDOR", label: "Proveedor", editable: true },
+    { key: "ENTRADA", label: "Entrada", editable: true },
     { key: "STOCK", label: "Stock", editable: true },
-    { key: "UDM", label: "UDM", editable: true }
+    { key: "UDM", label: "UDM", editable: true } // Ahora udm es editable
   ];
 
   const columnsInsumos = [
     { key: "Codigo", label: "Code", editable: false },
-    { key: "Descripcion", label: "Name", editable: true },
-    { key: "Categoria", label: "Category", editable: true },
+    { key: "Descripcion", label: "Nombre", editable: true },
+    { key: "Categoria", label: "Categoría", editable: true },
     { key: "Almacen", label: "Almacen", editable: true },
-    { key: "Proveedor", label: "Supplier", editable: true },
+    { key: "Proveedor", label: "Proveedor", editable: true },
     { key: "Stock_minimo", label: "Stock Min", editable: true },
-    { key: "Inventario", label: "Inventory", editable: true },
+    { key: "Inventario", label: "Stock", editable: true },
     { key: "Estatus", label: "Status", editable: true },
-    { key: "UnidadDM", label: "UDM", editable: false }
+    { key: "UnidadDM", label: "UDM", editable: true }
   ];
 
   const columns = selectedTable === "barra" ? columnsBarra : columnsInsumos;
 
-  // Función para cargar datos desde el backend
+  // back
   const loadData = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/almacen?type=${selectedTable}`);
@@ -197,20 +102,20 @@ const Almacen = () => {
     } catch (err) {
       console.error("Error fetching data:", err);
     }
-    setCurrentPage(1);
+    
   }, [selectedTable]);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
 
-  // Actualización automática cada 30 segundos
+  
   useEffect(() => {
     const intervalId = setInterval(loadData, 30000);
     return () => clearInterval(intervalId);
   }, [loadData]);
 
-  // Filtrado
+  
   const filteredProducts = products.filter((item) => {
     const searchLower = searchTerm.toLowerCase();
     return columns.some((col) => {
@@ -219,7 +124,7 @@ const Almacen = () => {
     });
   });
 
-  // Clave para stock/inventario según tabla
+  
   const inventoryKey = selectedTable === "barra" ? "STOCK" : "Inventario";
 
   // Ordenamiento
@@ -247,7 +152,7 @@ const Almacen = () => {
     setCurrentPage(page);
   };
 
-  // Edición inline
+  // Edit
   const startCellEdit = (globalIndex, field) => {
     setEditingCell({
       rowIndex: globalIndex,
@@ -292,7 +197,7 @@ const Almacen = () => {
     }
   };
 
-  // Función para eliminar un producto: muestra el modal de confirmación
+  
   const handleRequestDelete = (productId) => {
     setProductToDelete(productId);
     setShowDeleteModal(true);
@@ -315,7 +220,7 @@ const Almacen = () => {
     }
   };
 
-  // Modal: Agregar producto
+  // Modal añadir productito
   const handleAddModalChange = (e, field) => {
     setNewProduct({ ...newProduct, [field]: e.target.value });
   };
@@ -328,7 +233,7 @@ const Almacen = () => {
         const { DESCRIPCION, CATEGORIA, ALMACEN, PROVEEDOR } = newProduct;
         if (!DESCRIPCION || !CATEGORIA || !ALMACEN || !PROVEEDOR) {
           alert(
-            "Por favor, complete todos los campos obligatorios para Barra (Name, Category, Almacen y Supplier)."
+            "Por favor, complete todos los campos obligatorios para Barra (Nombre, Categoria, Almacen y Proveedor)."
           );
           return;
         }
@@ -362,7 +267,7 @@ const Almacen = () => {
           UnidadDM: newProduct.UDM
         };
         if (!productToAdd.Descripcion || !productToAdd.Categoria) {
-          alert("Por favor, complete los campos obligatorios para Insumos (Name y Category).");
+          alert("Por favor, complete los campos obligatorios para Insumos (Nombre y Categoria).");
           return;
         }
       }
@@ -397,7 +302,6 @@ const Almacen = () => {
       ENTRADA: 0,
       STOCK: 0
     });
-    setCurrentPage(1);
   };
 
   // Dashboard y gráficas (cálculos)
@@ -475,12 +379,14 @@ const Almacen = () => {
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
     .slice(0, 5);
 
-  const dashboardTitle = selectedTable === "barra" ? "Almacén - Barra" : "Almacén - Insumos";
+  const dashboardTitle = selectedTable === "barra" ? "Almacén - Barra" : "Almacén - Cocina";
 
   return (
     <div className="almacen-page fade-in">
       <div className="back-button">
-        <Link to="/" className="back-link">← Home</Link>
+        <Link to="/" className="back-link">
+          ←
+        </Link>
       </div>
 
       <h2 className="almacen-title">{dashboardTitle}</h2>
@@ -503,7 +409,7 @@ const Almacen = () => {
           <div className="search-container">
             <input
               type="text"
-              placeholder="Search product..."
+              placeholder="Buscar producto..."
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -511,7 +417,7 @@ const Almacen = () => {
               }}
               className="search-input"
             />
-            <span className="search-icon">🔍</span>
+            <span className="search-icon"></span>
           </div>
 
           <select
@@ -559,14 +465,14 @@ const Almacen = () => {
               className={selectedView === "table" ? "active" : ""}
               onClick={() => setSelectedView("table")}
             >
-              Table
+              Tabla
               {selectedView === "table" && (
                 <div className="submenu">
                   <span
                     className={selectedTable === "insumos" ? "active" : ""}
                     onClick={() => setSelectedTable("insumos")}
                   >
-                    Almacén de insumos
+                    Cocina
                   </span>
                   <span
                     className={selectedTable === "barra" ? "active" : ""}
@@ -581,7 +487,7 @@ const Almacen = () => {
               className={selectedView === "graphs" ? "active" : ""}
               onClick={() => setSelectedView("graphs")}
             >
-              Graphs
+              Dashboard
             </li>
             <li
               className={selectedView === "transfer" ? "active" : ""}
@@ -613,48 +519,78 @@ const Almacen = () => {
                         <tr key={item._id || globalIndex}>
                           {columns.map((col) => {
                             const cellValue = item[col.key] || "";
-                            // Para "Barra", si se edita alguno de los campos dropdown
-                            if (
-                              selectedTable === "barra" &&
-                              ["PROVEEDOR", "ALMACEN", "CATEGORIA", "UDM"].includes(col.key) &&
-                              editingCell &&
-                              editingCell.rowIndex === globalIndex &&
-                              editingCell.field === col.key
-                            ) {
-                              const options = dropdownFields[col.key] || [];
-                              return (
-                                <td key={col.key}>
-                                  <select
-                                    value={editingCell.value}
-                                    onChange={(e) => handleCellInputChange(e)}
-                                    onBlur={() => saveCellEdit(globalIndex, col.key)}
-                                  >
-                                    {options.map((option) => (
-                                      <option key={option} value={option}>
-                                        {option}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </td>
-                              );
-                            }
                             return (
                               <td key={col.key}>
                                 {editingCell &&
                                 editingCell.rowIndex === globalIndex &&
                                 editingCell.field === col.key ? (
-                                  <input
-                                    type={
-                                      ["STOCK", "ENTRADA", "Stock_minimo", "Inventario"].includes(col.key)
-                                        ? "number"
-                                        : "text"
-                                    }
-                                    value={editingCell.value}
-                                    onChange={handleCellInputChange}
-                                    onBlur={() => saveCellEdit(globalIndex, col.key)}
-                                    onKeyDown={(e) => handleCellKeyDown(e, globalIndex, col.key)}
-                                    autoFocus
-                                  />
+                                  // Si es el campo Supplier, Almacen o Category, mostrar menú desplegable
+                                  (col.key === "PROVEEDOR" ||
+                                    col.key === "ALMACEN" ||
+                                    col.key === "CATEGORIA" ||
+                                    (selectedTable === "insumos" &&
+                                      (col.key === "Proveedor" ||
+                                        col.key === "Categoria" ||
+                                        col.key === "UnidadDM"))) ? (
+                                    <select
+                                      value={editingCell.value}
+                                      onChange={handleCellInputChange}
+                                      onBlur={() => saveCellEdit(globalIndex, col.key)}
+                                      onKeyDown={(e) =>
+                                        handleCellKeyDown(e, globalIndex, col.key)
+                                      }
+                                      autoFocus
+                                    >
+                                      {/* Opciones para Supplier en Barra */}
+                                      {col.key === "PROVEEDOR" && selectedTable === "barra" && (
+                                        ["Carmelita", "Sanito", "Gamesa", "Venegas", "CityClub", "Aguas Frescas", "Grupo Modelo", "CocaCola", "Charal", "Muñoz", "Abuelo", "CarneMart", "Tigre Feliz", "N/A"].map((option) => (
+                                          <option key={option} value={option}>{option}</option>
+                                        ))
+                                      )}
+                                      {/* Opciones para Almacen en Barra */}
+                                      {col.key === "ALMACEN" && selectedTable === "barra" && (
+                                        ["Piso 1", "Piso 2", "Piso 3", "Piso 4", "Piso 5", "Refrigerador Agua", "Refrigerador Cerveza", "Refrigerador Coca Cola", "Barra"].map((option) => (
+                                          <option key={option} value={option}>{option}</option>
+                                        ))
+                                      )}
+                                      {/* Opciones para Category en Barra */}
+                                      {col.key === "CATEGORIA" && selectedTable === "barra" && (
+                                        ["Desechables", "Salsas y Aderezos", "Limpieza", "Servicio", "Bebidas", "Latas", "Aceites", "Postres", "Refrescos", "Cervezas", "Alcohol", "Pan", "Sopas", "Especias", "Verduras", "Pescados y Mariscos", "Insumos Preparados", "Proteínas", "Complementos", "Lácteos", "Embutidos", "Tortillas", "Verdura"].map((option) => (
+                                          <option key={option} value={option}>{option}</option>
+                                        ))
+                                      )}
+                                      {/* Opciones para Insumos: Supplier, Category y UDM */}
+                                      {selectedTable === "insumos" && col.key === "Proveedor" && (
+                                        ["Carmelita", "Sanito", "Gamesa", "Venegas", "CityClub", "Aguas Frescas", "Grupo Modelo", "CocaCola", "Charal", "Muñoz", "Abuelo", "CarneMart", "Tigre Feliz", "N/A"].map((option) => (
+                                          <option key={option} value={option}>{option}</option>
+                                        ))
+                                      )}
+                                      {selectedTable === "insumos" && col.key === "Categoria" && (
+                                        ["Desechables", "Salsas y Aderezos", "Limpieza", "Servicio", "Bebidas", "Latas", "Aceites", "Postres", "Refrescos", "Cervezas", "Alcohol", "Pan", "Sopas", "Especias", "Verduras", "Pescados y Mariscos", "Insumos Preparados", "Proteínas", "Complementos", "Lácteos", "Embutidos", "Tortillas", "Verdura"].map((option) => (
+                                          <option key={option} value={option}>{option}</option>
+                                        ))
+                                      )}
+                                      {selectedTable === "insumos" && col.key === "UnidadDM" && (
+                                        ["Carmelita", "Sanito", "Gamesa", "Venegas", "CityClub", "Aguas Frescas", "Grupo Modelo", "CocaCola", "Charal", "Muñoz", "Abuelo", "CarneMart", "Tigre Feliz", "N/A"].map((option) => (
+                                          <option key={option} value={option}>{option}</option>
+                                        ))
+                                      )}
+                                      {/* Si ninguna de las anteriores, se muestra un input normal (por ejemplo para otros campos) */}
+                                    </select>
+                                  ) : (
+                                    <input
+                                      type={
+                                        ["STOCK", "ENTRADA", "Stock_minimo", "Inventario"].includes(col.key)
+                                          ? "number"
+                                          : "text"
+                                      }
+                                      value={editingCell.value}
+                                      onChange={handleCellInputChange}
+                                      onBlur={() => saveCellEdit(globalIndex, col.key)}
+                                      onKeyDown={(e) => handleCellKeyDown(e, globalIndex, col.key)}
+                                      autoFocus
+                                    />
+                                  )
                                 ) : (
                                   <div className="cell-display">
                                     <span>{cellValue}</span>
@@ -707,31 +643,31 @@ const Almacen = () => {
             <div className="graphs-view">
               <div className="dashboard-summary">
                 <div className="summary-card">
-                  <h4>Total Products</h4>
+                  <h4>Total de Productos:</h4>
                   <p>{totalProductsCount}</p>
                 </div>
                 <div className="summary-card">
-                  <h4>Total Inventory</h4>
+                  <h4>Total de inventario: </h4>
                   <p>{totalInventory}</p>
                 </div>
                 <div className="summary-card">
-                  <h4>To Reorder</h4>
+                  <h4>Productos para Ordenar: </h4>
                   <p>{productsToReorder}</p>
                 </div>
                 <button className="refresh-btn" onClick={loadData}>
-                  Refresh Data
+                  Reiniciar datos
                 </button>
               </div>
 
               <div className="dashboard-row">
                 <div className="dashboard-chart">
-                  <h3>Top Stock Products (Pie Chart)</h3>
+                  <h3>Productos con mas stock</h3>
                   <div className="chart-container">
                     <Pie data={pieData} options={{ maintainAspectRatio: false }} />
                   </div>
                 </div>
                 <div className="dashboard-chart">
-                  <h3>Inventory by Category (Bar Chart)</h3>
+                  <h3>Stock por categoria</h3>
                   <div className="chart-container">
                     <Bar data={categoryChartData} options={{ maintainAspectRatio: false }} />
                   </div>
@@ -740,7 +676,7 @@ const Almacen = () => {
 
               <div className="dashboard-row">
                 <div className="dashboard-chart">
-                  <h3>Trends Over Items (Line Chart)</h3>
+                  <h3>Tendencias en los productos</h3>
                   <div className="chart-container">
                     <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
                   </div>
@@ -748,14 +684,12 @@ const Almacen = () => {
               </div>
 
               <div className="dashboard-row">
-                <h3 className="alert-title">
-                  Alert: Low Stock / Request Material
-                </h3>
+                <h3 className="alert-title"><em>!Alerta!</em> <br /> Productos sin stock. <br /> Se necesita solicitar material</h3>
                 <div className="alert-table">
                   <table>
                     <thead>
                       <tr>
-                        <th>Name</th>
+                        <th>Nombre</th>
                         <th>{selectedTable === "barra" ? "Stock" : "Inventory"}</th>
                         <th>Status</th>
                       </tr>
@@ -774,13 +708,13 @@ const Almacen = () => {
               </div>
 
               <div className="dashboard-row recent-changes">
-                <h3>Recent Changes</h3>
+                <h3 className= "Cambios-recientes">Cambios recientes</h3>
                 <div className="recent-table">
                   <table>
                     <thead>
                       <tr>
-                        <th>Product</th>
-                        <th>Last Update</th>
+                        <th>Producto</th>
+                        <th>Ultima Actualización</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -799,8 +733,8 @@ const Almacen = () => {
 
           {selectedView === "transfer" && (
             <div className="transfer-view">
-              <h3>Transfer View</h3>
-              <p>Coming soon...</p>
+              <h3>Transferencia de productos</h3>
+              <p>Proximamente...</p>
             </div>
           )}
         </div>
@@ -810,13 +744,13 @@ const Almacen = () => {
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>Add New Product</h3>
+            <h3>Agregar Producto</h3>
             <div className="modal-form">
               {selectedTable === "barra" ? (
                 <>
-                  {/* Para Barra: omitimos Code, y usamos selects para campos dropdown */}
+                  {/* Para Barra, se omite el campo Code (se genera automáticamente) */}
                   <label>
-                    Name:
+                    Nombre:
                     <input
                       type="text"
                       value={newProduct.DESCRIPCION}
@@ -824,12 +758,36 @@ const Almacen = () => {
                     />
                   </label>
                   <label>
-                    Category:
+                    Categoría:
                     <select
                       value={newProduct.CATEGORIA}
                       onChange={(e) => handleAddModalChange(e, "CATEGORIA")}
                     >
-                      {categoryOptions.map((option) => (
+                      {[
+                        "Desechables",
+                        "Salsas y Aderezos",
+                        "Limpieza",
+                        "Servicio",
+                        "Bebidas",
+                        "Latas",
+                        "Aceites",
+                        "Postres",
+                        "Refrescos",
+                        "Cervezas",
+                        "Alcohol",
+                        "Pan",
+                        "Sopas",
+                        "Especias",
+                        "Verduras",
+                        "Pescados y Mariscos",
+                        "Insumos Preparados",
+                        "Proteínas",
+                        "Complementos",
+                        "Lácteos",
+                        "Embutidos",
+                        "Tortillas",
+                        "Verdura"
+                      ].map((option) => (
                         <option key={option} value={option}>
                           {option}
                         </option>
@@ -842,7 +800,17 @@ const Almacen = () => {
                       value={newProduct.ALMACEN}
                       onChange={(e) => handleAddModalChange(e, "ALMACEN")}
                     >
-                      {almacenOptions.map((option) => (
+                      {[
+                        "Piso 1",
+                        "Piso 2",
+                        "Piso 3",
+                        "Piso 4",
+                        "Piso 5",
+                        "Refrigerador Agua",
+                        "Refrigerador Cerveza",
+                        "Refrigerador Coca Cola",
+                        "Barra"
+                      ].map((option) => (
                         <option key={option} value={option}>
                           {option}
                         </option>
@@ -850,12 +818,27 @@ const Almacen = () => {
                     </select>
                   </label>
                   <label>
-                    Supplier:
+                    Proveedor:
                     <select
                       value={newProduct.PROVEEDOR}
                       onChange={(e) => handleAddModalChange(e, "PROVEEDOR")}
                     >
-                      {supplierOptions.map((option) => (
+                      {[
+                        "Carmelita",
+                        "Sanito",
+                        "Gamesa",
+                        "Venegas",
+                        "CityClub",
+                        "Aguas Frescas",
+                        "Grupo Modelo",
+                        "CocaCola",
+                        "Charal",
+                        "Muñoz",
+                        "Abuelo",
+                        "CarneMart",
+                        "Tigre Feliz",
+                        "N/A"
+                      ].map((option) => (
                         <option key={option} value={option}>
                           {option}
                         </option>
@@ -868,7 +851,22 @@ const Almacen = () => {
                       value={newProduct.UDM}
                       onChange={(e) => handleAddModalChange(e, "UDM")}
                     >
-                      {udmOptions.map((option) => (
+                      {[
+                        "Carmelita",
+                        "Sanito",
+                        "Gamesa",
+                        "Venegas",
+                        "CityClub",
+                        "Aguas Frescas",
+                        "Grupo Modelo",
+                        "CocaCola",
+                        "Charal",
+                        "Muñoz",
+                        "Abuelo",
+                        "CarneMart",
+                        "Tigre Feliz",
+                        "N/A"
+                      ].map((option) => (
                         <option key={option} value={option}>
                           {option}
                         </option>
@@ -876,7 +874,7 @@ const Almacen = () => {
                     </select>
                   </label>
                   <label>
-                    Entrance:
+                    Entrada:
                     <input
                       type="number"
                       value={newProduct.ENTRADA}
@@ -894,7 +892,7 @@ const Almacen = () => {
                 </>
               ) : (
                 <>
-                  {/* Para Insumos: mantenemos el formulario tradicional */}
+                  {/* Para Insumos, se muestra el campo Code */}
                   <label>
                     Code:
                     <input
@@ -904,7 +902,7 @@ const Almacen = () => {
                     />
                   </label>
                   <label>
-                    Name:
+                    Nombre:
                     <input
                       type="text"
                       value={newProduct.DESCRIPCION}
@@ -912,28 +910,89 @@ const Almacen = () => {
                     />
                   </label>
                   <label>
-                    Category:
-                    <input
-                      type="text"
+                    Categoría:
+                    <select
                       value={newProduct.CATEGORIA}
                       onChange={(e) => handleAddModalChange(e, "CATEGORIA")}
-                    />
+                    >
+                      {[
+                        "Desechables",
+                        "Salsas y Aderezos",
+                        "Limpieza",
+                        "Servicio",
+                        "Bebidas",
+                        "Latas",
+                        "Aceites",
+                        "Postres",
+                        "Refrescos",
+                        "Cervezas",
+                        "Alcohol",
+                        "Pan",
+                        "Sopas",
+                        "Especias",
+                        "Verduras",
+                        "Pescados y Mariscos",
+                        "Insumos Preparados",
+                        "Proteínas",
+                        "Complementos",
+                        "Lácteos",
+                        "Embutidos",
+                        "Tortillas",
+                        "Verdura"
+                      ].map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     Almacen:
-                    <input
-                      type="text"
+                    <select
                       value={newProduct.ALMACEN}
                       onChange={(e) => handleAddModalChange(e, "ALMACEN")}
-                    />
+                    >
+                      {[
+                        "Alacena",
+                        "Congelador 1",
+                        "Congelador 2",
+                        "Refrigerador de verdura",
+                        "Refrigerador Marisco del dia",
+                        "Alacena especias"
+                      ].map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
-                    Supplier:
-                    <input
-                      type="text"
+                    Proveedor:
+                    <select
                       value={newProduct.PROVEEDOR}
                       onChange={(e) => handleAddModalChange(e, "PROVEEDOR")}
-                    />
+                    >
+                      {[
+                        "Carmelita",
+                        "Sanito",
+                        "Gamesa",
+                        "Venegas",
+                        "CityClub",
+                        "Aguas Frescas",
+                        "Grupo Modelo",
+                        "CocaCola",
+                        "Charal",
+                        "Muñoz",
+                        "Abuelo",
+                        "CarneMart",
+                        "Tigre Feliz",
+                        "N/A"
+                      ].map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     Stock Min:
@@ -944,7 +1003,7 @@ const Almacen = () => {
                     />
                   </label>
                   <label>
-                    Inventory:
+                    Inventario:
                     <input
                       type="number"
                       value={newProduct.ENTRADA}
@@ -952,21 +1011,45 @@ const Almacen = () => {
                     />
                   </label>
                   <label>
-                    Status:
-                    <input
-                      type="text"
-                      placeholder="Disponible"
+                    Estatus:
+                    <select
                       value={newProduct.ESTATUS || ""}
                       onChange={(e) => handleAddModalChange(e, "ESTATUS")}
-                    />
+                    >
+                      {["Solicitar material", "Hay suficiente", "N/A"].map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     UDM:
-                    <input
-                      type="text"
+                    <select
                       value={newProduct.UDM}
                       onChange={(e) => handleAddModalChange(e, "UDM")}
-                    />
+                    >
+                      {[
+                        "Carmelita",
+                        "Sanito",
+                        "Gamesa",
+                        "Venegas",
+                        "CityClub",
+                        "Aguas Frescas",
+                        "Grupo Modelo",
+                        "CocaCola",
+                        "Charal",
+                        "Muñoz",
+                        "Abuelo",
+                        "CarneMart",
+                        "Tigre Feliz",
+                        "N/A"
+                      ].map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                 </>
               )}

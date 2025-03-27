@@ -14,7 +14,7 @@ const ProfilePage = () => {
     profileImage: storedUser.profileImage || ""
   });
 
-  // Estado para información de pago
+  // Estado para la información de pago
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [loadingPayment, setLoadingPayment] = useState(true);
   const [editingPayment, setEditingPayment] = useState(false);
@@ -25,71 +25,53 @@ const ProfilePage = () => {
   });
 
   // Estado para cambio de contraseña
+  const [editingPassword, setEditingPassword] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmNewPassword: ""
   });
-  const [editingPassword, setEditingPassword] = useState(false);
 
-  // Estado para configuración de seguridad (ejemplo de 2FA)
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
-
-  // Estado para actividad reciente (simulada)
-  const [activityLog, setActivityLog] = useState([]);
-
-  // Estado para notificaciones
+  // Notificación para informar cambios
   const [notification, setNotification] = useState("");
 
-  // Obtener información de pago y actividad reciente
+  // Cargar información de pago desde el backend
   useEffect(() => {
     const fetchPaymentInfo = async () => {
       if (storedUser._id) {
         try {
+          // Asegúrate de usar backticks para formar la URL correctamente
           const response = await fetch(`http://localhost:5000/api/payment?userId=${storedUser._id}`);
           const data = await response.json();
-          if (response.ok) {
+          console.log("Respuesta del endpoint de payment:", data);
+          if (response.ok && data.payment) {
             setPaymentInfo(data.payment);
-            if (data.payment) {
-              setPaymentFormData({
-                cardNumber: data.payment.cardNumber || "",
-                nameOnCard: data.payment.nameOnCard || "",
-                expiry: data.payment.expiry || ""
-              });
-            }
+            setPaymentFormData({
+              cardNumber: data.payment.cardNumber || "",
+              nameOnCard: data.payment.nameOnCard || "",
+              expiry: data.payment.expiry || ""
+            });
           } else {
-            console.error(data.error);
+            console.error("Error en la respuesta de payment:", data.error);
           }
         } catch (err) {
           console.error("Error fetching payment info:", err);
         }
+      } else {
+        console.error("No se encontró storedUser._id");
       }
       setLoadingPayment(false);
     };
 
-    const fetchActivityLog = async () => {
-      // Aquí puedes llamar a un endpoint real para la actividad del usuario.
-      // Por simplicidad se simula con datos fijos.
-      const simulatedActivity = [
-        "Logged in",
-        "Updated profile",
-        "Changed password",
-        "Added payment info",
-        "Logged out"
-      ];
-      setActivityLog(simulatedActivity);
-    };
-
     fetchPaymentInfo();
-    fetchActivityLog();
   }, [storedUser._id]);
 
-  // Manejar cambios en el formulario del perfil
+  // Manejo de cambios en el formulario del perfil
   const handleProfileChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Subir imagen de perfil
+  // Manejo de cambio de imagen de perfil
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -186,7 +168,7 @@ const ProfilePage = () => {
     }
   };
 
-  // Función para eliminar cuenta
+  // Eliminar cuenta
   const handleDeleteAccount = async () => {
     if (window.confirm("¿Está seguro de que desea eliminar su cuenta? Esta acción es irreversible.")) {
       try {
@@ -215,17 +197,11 @@ const ProfilePage = () => {
     navigate("/login");
   };
 
-  // Helper para formatear número de tarjeta
+  // Helper para formatear el número de tarjeta
   const formatCardNumber = (raw) => {
     if (!raw) return "";
     const groups = raw.match(/.{1,4}/g);
     return groups ? groups.join(" ") : raw;
-  };
-
-  // Simulación de activación de 2FA
-  const toggleTwoFactor = () => {
-    setTwoFactorEnabled(!twoFactorEnabled);
-    setNotification(`Autenticación de dos factores ${!twoFactorEnabled ? "activada" : "desactivada"}.`);
   };
 
   return (
@@ -254,7 +230,13 @@ const ProfilePage = () => {
               <label htmlFor="fileInput" className="upload-label">
                 Upload from device
               </label>
-              <input type="file" id="fileInput" accept="image/*" onChange={handleFileChange} className="file-input" />
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="file-input"
+              />
               <label htmlFor="profileImageUrl" className="upload-label">
                 Or enter image URL
               </label>
@@ -272,15 +254,32 @@ const ProfilePage = () => {
           <form className="profile-form" onSubmit={handleUpdateProfile}>
             <div className="form-group">
               <label>Username:</label>
-              <input type="text" name="username" value={formData.username} onChange={handleProfileChange} required />
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleProfileChange}
+                required
+              />
             </div>
             <div className="form-group">
               <label>Email:</label>
-              <input type="email" name="email" value={formData.email} onChange={handleProfileChange} required />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleProfileChange}
+                required
+              />
             </div>
             <div className="form-group">
               <label>Phone Number:</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleProfileChange} />
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleProfileChange}
+              />
             </div>
             <button type="submit" className="update-btn">
               Update Profile
@@ -298,7 +297,8 @@ const ProfilePage = () => {
                 <div className="payment-card">
                   <h3>Payment Information</h3>
                   <p>
-                    <strong>Card Number:</strong> {paymentInfo.cardNumber ? formatCardNumber(paymentInfo.cardNumber) : "N/A"}
+                    <strong>Card Number:</strong>{" "}
+                    {paymentInfo.cardNumber ? formatCardNumber(paymentInfo.cardNumber) : "N/A"}
                   </p>
                   <p>
                     <strong>Name on Card:</strong> {paymentInfo.nameOnCard || "N/A"}
@@ -315,15 +315,33 @@ const ProfilePage = () => {
                   <h3>{paymentInfo ? "Edit Payment Information" : "Add Payment Information"}</h3>
                   <div className="form-group">
                     <label>Card Number:</label>
-                    <input type="text" name="cardNumber" value={paymentFormData.cardNumber} onChange={handlePaymentChange} required />
+                    <input
+                      type="text"
+                      name="cardNumber"
+                      value={paymentFormData.cardNumber}
+                      onChange={handlePaymentChange}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label>Name on Card:</label>
-                    <input type="text" name="nameOnCard" value={paymentFormData.nameOnCard} onChange={handlePaymentChange} required />
+                    <input
+                      type="text"
+                      name="nameOnCard"
+                      value={paymentFormData.nameOnCard}
+                      onChange={handlePaymentChange}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label>Expiry (MM/YY):</label>
-                    <input type="text" name="expiry" value={paymentFormData.expiry} onChange={handlePaymentChange} required />
+                    <input
+                      type="text"
+                      name="expiry"
+                      value={paymentFormData.expiry}
+                      onChange={handlePaymentChange}
+                      required
+                    />
                   </div>
                   <button type="submit" className="update-btn">
                     Save Payment Info
@@ -342,35 +360,6 @@ const ProfilePage = () => {
               )}
             </>
           )}
-        </div>
-
-        {/* Activity Log Section (simulada) */}
-        <div className="activity-section">
-          <h3>Recent Activity</h3>
-          {activityLog.length > 0 ? (
-            <ul>
-              {activityLog.map((activity, index) => (
-                <li key={index}>{activity}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No recent activity found.</p>
-          )}
-        </div>
-
-        {/* Security Settings Section */}
-        <div className="security-section">
-          <h3>Security Settings</h3>
-          <div className="security-item">
-            <label>
-              <input
-                type="checkbox"
-                checked={twoFactorEnabled}
-                onChange={toggleTwoFactor}
-              />
-              Enable Two-Factor Authentication
-            </label>
-          </div>
         </div>
 
         {/* Password Change Section */}
@@ -424,7 +413,14 @@ const ProfilePage = () => {
 
         {/* Delete Account Section */}
         <div className="delete-account-section">
-          <button className="delete-account-btn" onClick={handleDeleteAccount}>
+          <button
+            className="delete-account-btn"
+            onClick={() => {
+              if (window.confirm("¿Está seguro de que desea eliminar su cuenta? Esta acción es irreversible.")) {
+                handleDeleteAccount();
+              }
+            }}
+          >
             Delete Account
           </button>
         </div>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Styles/Homepage.scss"
+import InstagramIcon from "./Icons/InstagramIcon"; // Asegúrate que la ruta es correcta
+import "./Styles/Homepage.scss";
 
 const Homepage = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeServiceTab, setActiveServiceTab] = useState("Graphs");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
-  
 
   // Mostrar botón "scroll to top" al hacer scroll
   useEffect(() => {
@@ -26,6 +26,9 @@ const Homepage = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  // Determinar si el usuario ha iniciado sesión
+  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+
   return (
     <div className={`homepage ${isDarkMode ? "dark" : "light"}`}>
       {/* NAVIGATION */}
@@ -37,21 +40,23 @@ const Homepage = () => {
         </div>
 
         <div className="nav-extra">
-          <button className="theme-toggle" onClick={toggleTheme}>
-          </button>
+          <button className="theme-toggle" onClick={toggleTheme}></button>
         </div>
 
         <div className={`nav-links ${isMobileNavOpen ? "open" : ""}`}>
-        { localStorage.getItem("authToken") ? (
-  <Link to="/profile">Profile</Link>
-) : (
-  <>
-    <Link to="/login">Log in</Link>
-    <Link to="/signup">Sign-up</Link>
-  </>
-)}
-        
-          <Link to="/Almacen">Start</Link>
+          {isLoggedIn ? (
+            <>
+              <Link to="/profile">Profile</Link>
+              <Link to="/Almacen" className="start-link">
+                Start
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Log in</Link>
+              <Link to="/signup">Sign-up</Link>
+            </>
+          )}
           <a href="#prices">Prices</a>
           <a href="#about">About</a>
         </div>
@@ -75,22 +80,23 @@ const Homepage = () => {
             management for any business.
           </p>
           <div className="hero__cta-buttons">
-            <Link to = "/Almacen" className="start-button">Start </Link>  
+            {isLoggedIn && (
+              <Link to="/Almacen" className="start-button">
+                Start
+              </Link>
+            )}
             <Link to="/signup" className="learn-more-button">
               Learn More
             </Link>
           </div>
         </div>
 
-        {/* Reemplazamos la imagen de Dashboard por un mockup que simula el dashboard */}
+        {/* Simulación del dashboard */}
         <div className="hero__image">
           <div className="hero__dashboard">
-            {/* Barra lateral izquierda */}
             <div className="dashboard__left">
               <div className="dashboard__circle"></div>
             </div>
-
-            {/* Panel derecho con "tarjetas" y estrellas */}
             <div className="dashboard__right">
               <div className="dashboard__item">
                 <span className="star"></span>
@@ -110,7 +116,7 @@ const Homepage = () => {
       <section id="services" className="services">
         <h2 className="services__title">Our Services</h2>
         <div className="services__tabs">
-          {["Graphs", "Dashboard", "Text Message"].map((tab) => (
+          {["Graphs", "Tables", "Transactions"].map((tab) => (
             <span
               key={tab}
               className={activeServiceTab === tab ? "active" : ""}
@@ -133,8 +139,8 @@ const Homepage = () => {
             )}
             {activeServiceTab === "Dashboard" && (
               <p>
-                Manage your inventory seamlessly with our comprehensive
-                dashboard interface.
+                Manage your inventory seamlessly with our comprehensive dashboard
+                interface.
               </p>
             )}
             {activeServiceTab === "Text Message" && (
@@ -205,8 +211,8 @@ const Homepage = () => {
               and improve decision making.
             </p>
             <p>
-              With real-time tracking and smart alerts, our system scales with
-              your business and adapts to your needs.
+              With real-time tracking and smart alerts, our system scales with your
+              business and adapts to your needs.
             </p>
           </div>
           <div className="about__image">
@@ -248,17 +254,25 @@ const Homepage = () => {
             </ul>
             <div className="contact__icons">
               <a
-                href="https://www.instagram.com/luvleydie/"
+                href="https://www.instagram.com/yourprofile"  // Reemplaza con la URL deseada
+                target="_blank"
+                rel="noopener noreferrer"
                 className="icon icon--instagram"
                 aria-label="Instagram"
-              ></a>
+              >
+                <InstagramIcon size={32} />
+              </a>
               <a
-                href="https://www.instagram.com/luvleydie/"
+                href="https://www.twitter.com/yourprofile"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="icon icon--twitter"
                 aria-label="Twitter"
               ></a>
               <a
-                href="https://www.instagram.com/luvleydie/"
+                href="https://www.tiktok.com/@yourprofile"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="icon icon--tiktok"
                 aria-label="TikTok"
               ></a>

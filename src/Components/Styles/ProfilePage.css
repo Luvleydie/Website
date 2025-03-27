@@ -1,0 +1,369 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInPayment {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.profile-page {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-header {
+  width: 100%;
+  max-width: 800px;
+  background-color: #0c223b;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.profile-header .profile-back,
+.profile-header .profile-logout {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.profile-header .profile-back:hover,
+.profile-header .profile-logout:hover {
+  color: #ffcc00;
+}
+.profile-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.notification {
+  background-color: #2f4c6c;
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.profile-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  align-items: center;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.profile-image-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-image-section .profile-image {
+  width: 150px;
+  height: 150px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #0c223b;
+}
+.profile-image-section .image-options {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-image-section .image-options .upload-label {
+  font-size: 0.9rem;
+  color: #0c223b;
+  cursor: pointer;
+  margin: 0.3rem 0;
+}
+.profile-image-section .image-options .upload-label:hover {
+  text-decoration: underline;
+}
+.profile-image-section .image-options .file-input,
+.profile-image-section .image-options .profile-image-input {
+  padding: 0.4rem;
+  width: 100%;
+  max-width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-form {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.profile-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.profile-form .form-group label {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+.profile-form .form-group input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+.profile-form .form-group input:focus {
+  border-color: #0c223b;
+  outline: none;
+}
+.profile-form .update-btn {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background-color: #0c223b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+.profile-form .update-btn:hover {
+  background-color: #2f4c6c;
+}
+
+/* Payment Info Section */
+.payment-info-section {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  animation: fadeInPayment 0.7s ease-in-out;
+}
+.payment-info-section .payment-card,
+.payment-info-section .payment-form {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.payment-info-section .payment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.payment-info-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #0c223b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.payment-info-section p {
+  margin: 0.8rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+.payment-info-section strong {
+  font-weight: 700;
+  color: #0c223b;
+}
+.payment-info-section .edit-btn,
+.payment-info-section .update-btn,
+.payment-info-section .cancel-btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-top: 1rem;
+}
+.payment-info-section .edit-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+.payment-info-section .edit-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+.payment-info-section .update-btn {
+  background-color: #0c223b;
+  color: #fff;
+}
+.payment-info-section .update-btn:hover {
+  background-color: #2f4c6c;
+  transform: scale(1.05);
+}
+.payment-info-section .cancel-btn {
+  background-color: #ccc;
+  color: #333;
+}
+.payment-info-section .cancel-btn:hover {
+  background-color: #bbb;
+  transform: scale(1.05);
+}
+.payment-info-section .add-payment-btn {
+  background-color: #28a745;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-top: 2rem;
+  width: 100%;
+}
+.payment-info-section .add-payment-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+.payment-info-section .form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1.2rem 0;
+  width: 100%;
+}
+.payment-info-section .form-group input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, transform 0.3s;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+.payment-info-section .form-group input:focus {
+  border-color: #0c223b;
+  outline: none;
+  transform: scale(1.05);
+}
+.payment-info-section .form-group label {
+  font-size: 1rem;
+  color: #0c223b;
+  margin-bottom: 0.5rem;
+}
+
+/* Activity Section */
+.activity-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+.activity-section h3 {
+  font-size: 1.5rem;
+  color: #0c223b;
+  margin-bottom: 1rem;
+}
+.activity-section ul {
+  list-style: disc;
+  margin-left: 2rem;
+  text-align: left;
+}
+.activity-section ul li {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+/* Security Section */
+.security-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  text-align: left;
+}
+.security-section h3 {
+  font-size: 1.5rem;
+  color: #0c223b;
+  margin-bottom: 1rem;
+}
+.security-section .security-item {
+  font-size: 1rem;
+  color: #333;
+}
+.security-section .security-item label {
+  cursor: pointer;
+}
+.security-section .security-item label input {
+  margin-right: 0.5rem;
+}
+
+/* Delete Account Section */
+.delete-account-section {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-top: 2rem;
+}
+.delete-account-section .delete-account-btn {
+  background-color: #dc3545;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.delete-account-section .delete-account-btn:hover {
+  background-color: #a71d2a;
+  transform: scale(1.05);
+}/*# sourceMappingURL=ProfilePage.css.map */
