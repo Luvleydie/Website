@@ -1,0 +1,84 @@
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(12, 34, 59, 0.95);
+
+        
+        .logo img {
+        max-height: 51px;
+        position: initial;
+
+        }
+
+        .nav-extra {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            input.search-input {
+            padding: 0.4rem 2.5rem 0.4rem 0.8rem;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            transition: box-shadow 0.3s;
+            }
+            input.search-input:focus {
+            box-shadow: 0 0 5px rgba(40, 166, 69, 0.8);
+            }
+            .search-icon {
+            position: absolute;
+            right: 0.8rem;
+            font-size: 1rem;
+            color: #888;
+            }
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #fff;
+        }
+        }
+
+        .nav-links {
+        display: flex;
+        gap: 5rem;
+        list-style: circle;
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-family:  'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            transition: color 0.3s;
+        
+            &:hover {
+            text-decoration: underline;
+            text-shadow: #001B36;
+            border-radius: 7.3px;
+            }
+        }
+        &.open {
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(12, 34, 59, 0.95);
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        }
+    }

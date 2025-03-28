@@ -425,9 +425,9 @@ const Almacen = () => {
             onChange={(e) => setSortOption(e.target.value)}
             className="sort-dropdown"
           >
-            <option value="">Sort by...</option>
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
+            <option value="">Ordenar por...</option>
+            <option value="name-asc">Nombre (A-Z)</option>
+            <option value="name-desc">Nombre (Z-A)</option>
             <option value="stock-asc">Stock (Low to High)</option>
             <option value="stock-desc">Stock (High to Low)</option>
           </select>
@@ -438,7 +438,7 @@ const Almacen = () => {
             className="almacen-add-button"
             onClick={() => setShowAddModal(true)}
           >
-            <span className="plus-icon">＋</span> Add New Product
+            <span className="plus-icon">＋</span> Agregar Producto
           </button>
           {storedUser ? (
             <img
@@ -764,6 +764,7 @@ const Almacen = () => {
                       onChange={(e) => handleAddModalChange(e, "CATEGORIA")}
                     >
                       {[
+                        "N/A",
                         "Desechables",
                         "Salsas y Aderezos",
                         "Limpieza",
@@ -801,6 +802,7 @@ const Almacen = () => {
                       onChange={(e) => handleAddModalChange(e, "ALMACEN")}
                     >
                       {[
+                        "N/A",
                         "Piso 1",
                         "Piso 2",
                         "Piso 3",
@@ -824,6 +826,7 @@ const Almacen = () => {
                       onChange={(e) => handleAddModalChange(e, "PROVEEDOR")}
                     >
                       {[
+                        "N/A",
                         "Carmelita",
                         "Sanito",
                         "Gamesa",
@@ -836,8 +839,7 @@ const Almacen = () => {
                         "Muñoz",
                         "Abuelo",
                         "CarneMart",
-                        "Tigre Feliz",
-                        "N/A"
+                        "Tigre Feliz"
                       ].map((option) => (
                         <option key={option} value={option}>
                           {option}
@@ -852,20 +854,18 @@ const Almacen = () => {
                       onChange={(e) => handleAddModalChange(e, "UDM")}
                     >
                       {[
-                        "Carmelita",
-                        "Sanito",
-                        "Gamesa",
-                        "Venegas",
-                        "CityClub",
-                        "Aguas Frescas",
-                        "Grupo Modelo",
-                        "CocaCola",
-                        "Charal",
-                        "Muñoz",
-                        "Abuelo",
-                        "CarneMart",
-                        "Tigre Feliz",
-                        "N/A"
+                        "N/A",
+                        "Pz", 
+                        "% de Caja", 
+                        "Cajas", 
+                        "Paquetes 30", 
+                        "Paquetes 27", 
+                        "Paquete 165", 
+                        "Rollos", 
+                        "Litro", 
+                        "Cartón de 960ml", 
+                        "Bote de 1.8L", "Frasco de 1.4L", "Botes de 320gr.", "Lata de 3.65kg", "Botes de 4L", "800ml", "Galón 3.7L", "Galón 1.89L", "Latas", "Lata de 820gr", "gr", "Latas de 425gr", "Rebanadas", "Bolsa de 2kg", "Kg", "% de Cambro", "Charola", "% del Bote", "Kilo", "Bolsitas 50gr", "% de recipiente", "Bolsita 50gr", "Bolsita de 150gr", "Caja 500gr", "% de la Tina", 
+                        "Pz (Cabeza)"
                       ].map((option) => (
                         <option key={option} value={option}>
                           {option}

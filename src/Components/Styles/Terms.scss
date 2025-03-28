@@ -1,0 +1,101 @@
+.terms-container {
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+  
+    /* Ajusta el margen superior para mover todo el contenido hacia abajo */
+    padding-top: 130px; /* Puedes aumentar este valor según lo que necesites */
+  
+    h1 {
+      font-size: 3rem; /* Aumentar el tamaño */
+      color: #04680e;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+  
+    h2 {
+      font-size: 2.5rem; /* Aumentar el tamaño */
+      color: #04680e;
+      margin-top: 30px;
+      text-align: left;
+    }
+  
+    p {
+      font-size: 1.3rem; /* Aumentar el tamaño */
+      color: #666;
+      line-height: 1.6;
+      text-align: left;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      width: 100%;
+      text-align: justify;
+    }
+  
+    ul {
+      list-style-position: inside;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+  
+      li {
+        font-size: 1.2rem; /* Aumentar el tamaño */
+        color: #333;
+        margin-bottom: 10px;
+  
+        strong {
+          color: #04680e;
+        }
+      }
+    }
+  
+    /* Estilos para enlaces */
+    a {
+      font-size: 1.2rem; /* Aumentar el tamaño */
+      color: #04680e;
+      text-decoration: none;
+      transition: color 0.3s ease;
+  
+      &:hover {
+        text-decoration: underline;
+        color: #166109;
+      }
+    }
+  
+    /* Sección de contacto */
+    .contact-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+      width: 100%;
+      text-align: center;
+  
+      p {
+        font-size: 1.3rem; /* Aumentar el tamaño */
+        color: #333;
+      }
+    }
+  
+    /* Estilo para botones de contacto */
+    .contact-btn {
+      display: inline-block;
+      background-color: #04680e;
+      color: #ffffff;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      font-size: 1.3rem; /* Aumentar el tamaño */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+  
+      &:hover {
+        background-color: #166109;
+      }
+    }
+  }
+  

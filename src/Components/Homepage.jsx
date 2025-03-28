@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import InstagramIcon from "./Icons/InstagramIcon"; // Asegúrate que la ruta es correcta
+import InstagramIcon from "./Icons/InstagramIcon"; 
 import "./Styles/Homepage.scss";
 
 const Homepage = () => {
@@ -26,9 +26,6 @@ const Homepage = () => {
     setIsDarkMode(!isDarkMode);
   };
 
-  // Determinar si el usuario ha iniciado sesión
-  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
-
   return (
     <div className={`homepage ${isDarkMode ? "dark" : "light"}`}>
       {/* NAVIGATION */}
@@ -44,19 +41,16 @@ const Homepage = () => {
         </div>
 
         <div className={`nav-links ${isMobileNavOpen ? "open" : ""}`}>
-          {isLoggedIn ? (
-            <>
-              <Link to="/profile">Profile</Link>
-              <Link to="/Almacen" className="start-link">
-                Start
-              </Link>
-            </>
+          {localStorage.getItem("authToken") ? (
+            <Link to="/profile">Profile</Link>
           ) : (
             <>
               <Link to="/login">Log in</Link>
               <Link to="/signup">Sign-up</Link>
             </>
           )}
+
+          <Link to="/Almacen">Start</Link>
           <a href="#prices">Prices</a>
           <a href="#about">About</a>
         </div>
@@ -80,23 +74,22 @@ const Homepage = () => {
             management for any business.
           </p>
           <div className="hero__cta-buttons">
-            {isLoggedIn && (
-              <Link to="/Almacen" className="start-button">
-                Start
-              </Link>
-            )}
-            <Link to="/signup" className="learn-more-button">
+            <Link to="/Almacen" className="start-button">Start</Link>
+            <Link to="/terms" className="learn-more-button">
               Learn More
             </Link>
           </div>
         </div>
 
-        {/* Simulación del dashboard */}
+        {/* Reemplazamos la imagen de Dashboard por un mockup que simula el dashboard */}
         <div className="hero__image">
           <div className="hero__dashboard">
+            {/* Barra lateral izquierda */}
             <div className="dashboard__left">
               <div className="dashboard__circle"></div>
             </div>
+
+            {/* Panel derecho con "tarjetas" y estrellas */}
             <div className="dashboard__right">
               <div className="dashboard__item">
                 <span className="star"></span>
@@ -116,7 +109,7 @@ const Homepage = () => {
       <section id="services" className="services">
         <h2 className="services__title">Our Services</h2>
         <div className="services__tabs">
-          {["Graphs", "Tables", "Transactions"].map((tab) => (
+          {["Graphs", "Dashboard", "Text Message"].map((tab) => (
             <span
               key={tab}
               className={activeServiceTab === tab ? "active" : ""}
@@ -128,19 +121,18 @@ const Homepage = () => {
         </div>
         <div className="services__content">
           <div className="services__image">
-            <img src="/images/Graphs.png" alt="Service Preview" />
+            <img src="/images/Graphs.jpg" alt="Service Preview" />
           </div>
           <div className="services__info">
             {activeServiceTab === "Graphs" && (
               <p>
-                Visualize your data with interactive and dynamic graphs for
-                better insights.
+                Effortlessly manage your inventory with our intuitive dashboard. You’ll find a comprehensive list of all products, where you can easily add items by entering their name and stock level. We’ll handle assigning IDs for you! Optionally, you can also upload an image to give a visual reference. Stay organized and keep track of everything seamlessly.
               </p>
             )}
             {activeServiceTab === "Dashboard" && (
               <p>
-                Manage your inventory seamlessly with our comprehensive dashboard
-                interface.
+                Manage your inventory seamlessly with our comprehensive
+                dashboard interface.
               </p>
             )}
             {activeServiceTab === "Text Message" && (
@@ -162,8 +154,7 @@ const Homepage = () => {
             <p>Per month</p>
             <h4>Basic</h4>
             <ul>
-              <li>Up to 50 products</li>
-              <li>Basic graphs</li>
+              <li>Limited products storage to 50 products</li>
               <li>Standard dashboard</li>
             </ul>
             <Link to="/login" className="prices__button">
@@ -171,26 +162,26 @@ const Homepage = () => {
             </Link>
           </div>
           <div className="prices__card prices__card--medium">
-            <h3>MX$100</h3>
+            <h3>MX$199</h3>
             <p>Per month</p>
             <h4>Medium</h4>
             <ul>
-              <li>Up to 200 products</li>
-              <li>Advanced graphs</li>
-              <li>Enhanced dashboard</li>
+              <li>Limited products storage to 300 products</li>
+              <li>Graphs</li>
+              <li>Standard dashboard</li>
             </ul>
             <Link to="/payment" className="prices__button">
               Subscribe
             </Link>
           </div>
           <div className="prices__card prices__card--premium">
-            <h3>MX$200</h3>
+            <h3>MX$499</h3>
             <p>Per month</p>
             <h4>Premium</h4>
             <ul>
-              <li>Up to 1000 products</li>
-              <li>All features unlocked</li>
-              <li>Priority support</li>
+              <li>Limited products storage to 1000 products</li>
+              <li>All graphs unlocked</li>
+              <li>Professional dashboard</li>
             </ul>
             <Link to="/payment" className="prices__button">
               Subscribe
@@ -205,14 +196,10 @@ const Homepage = () => {
         <div className="about__content">
           <div className="about__text">
             <p>
-              At Alma - Zen, we specialize in providing efficient inventory
-              management solutions. Our advanced technology and intuitive
-              interface help companies optimize product control, reduce losses,
-              and improve decision making.
+            At Alma - zen, we specialize in providing efficient solutions for inventory management. Our goal is to help companies and entrepreneurs optimize the control of their products, reduce losses and improve decision making with advanced and easy-to-use technology.
             </p>
             <p>
-              With real-time tracking and smart alerts, our system scales with your
-              business and adapts to your needs.
+            We are committed to offering a reliable, safe and adaptable service to the needs of each business. With us your <strong>inventory management will improve to the next level!</strong>
             </p>
           </div>
           <div className="about__image">
@@ -236,8 +223,8 @@ const Homepage = () => {
           </div>
           <div className="contact__right">
             <ul>
-              <li>
-                <a href="#!">Terms</a>
+            <li>
+                <Link to="/Terms">Terms</Link>
               </li>
               <li>
                 <a href="#!">Privacy</a>
@@ -254,7 +241,7 @@ const Homepage = () => {
             </ul>
             <div className="contact__icons">
               <a
-                href="https://www.instagram.com/yourprofile"  // Reemplaza con la URL deseada
+                href="https://www.instagram.com/yourprofile"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="icon icon--instagram"

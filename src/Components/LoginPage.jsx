@@ -83,7 +83,7 @@ const LoginPage = () => {
         <div className="login-page__logo">
           <img src="./Images/Logo.png" alt="Alma-zen logo" />
         </div>
-        <h2 className="login-page__title">Sign in</h2>
+        <h2 className="login-page__title">Log in</h2>
         <form className="login-page__form" onSubmit={handleSubmit}>
           <label className="login-page__label">
             Email
