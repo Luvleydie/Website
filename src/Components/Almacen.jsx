@@ -391,7 +391,7 @@ const Almacen = () => {
 
       <h2 className="almacen-title">{dashboardTitle}</h2>
 
-      {/* Topbar */}
+      
       <div className="almacen-topbar">
         <div className="topbar-left">
           <select

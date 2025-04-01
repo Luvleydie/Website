@@ -241,7 +241,7 @@ const Homepage = () => {
             </ul>
             <div className="contact__icons">
               <a
-                href="https://www.instagram.com/yourprofile"
+                href="https://www.instagram.com/luvleydie"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="icon icon--instagram"
