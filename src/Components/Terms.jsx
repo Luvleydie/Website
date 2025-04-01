@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar"; // Asegúrate de que esta importación esté correcta
-import "./Styles/Terms.scss"; // Asegúrate de que el archivo SCSS esté correctamente importado
+import Navbar from "./Navbar"; 
+import "./Styles/Terms.scss"; 
 
 const Terms = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
     <div className="terms-container">
-      {/* Importamos el Navbar */}
       <Navbar
         isMobileNavOpen={isMobileNavOpen}
         toggleMobileNav={() => setIsMobileNavOpen(!isMobileNavOpen)}

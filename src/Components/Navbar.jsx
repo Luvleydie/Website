@@ -4,7 +4,6 @@ import "./Styles/Navbar.scss";
 
 const Navbar = ({ isMobileNavOpen, toggleMobileNav }) => {
   const toggleTheme = () => {
-    // Aquí puedes implementar el cambio de tema si lo necesitas
     document.body.classList.toggle("dark-theme");
   };
 
