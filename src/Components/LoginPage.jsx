@@ -8,12 +8,10 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
-  // Manejar cambios en los inputs
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Login tradicional
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,7 +34,6 @@ const LoginPage = () => {
     }
   };
 
-  // Callback de Facebook
   const responseFacebook = async (response) => {
     console.log("Respuesta de Facebook:", response); // Depuración
     if (response.accessToken) {
@@ -69,7 +66,6 @@ const LoginPage = () => {
     }
   };
 
-  // Función para regresar a homepage
   const handleBack = () => {
     navigate("/");
   };
@@ -120,7 +116,7 @@ const LoginPage = () => {
         </form>
         <div className="login-page__social">
           <FacebookLogin
-            appId="YOUR_FACEBOOK_APP_ID" // Reemplaza con tu Facebook App ID real
+            appId="YOUR_FACEBOOK_APP_ID" 
             autoLoad={false}
             callback={responseFacebook}
             fields="name,email,picture"

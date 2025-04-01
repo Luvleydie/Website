@@ -6,7 +6,6 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
 
-  // Estado del perfil
   const [formData, setFormData] = useState({
     username: storedUser.username || "",
     email: storedUser.email || "",
@@ -14,7 +13,6 @@ const ProfilePage = () => {
     profileImage: storedUser.profileImage || ""
   });
 
-  // Estado para la información de pago
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [loadingPayment, setLoadingPayment] = useState(true);
   const [editingPayment, setEditingPayment] = useState(false);
@@ -24,7 +22,6 @@ const ProfilePage = () => {
     expiry: ""
   });
 
-  // Estado para cambio de contraseña
   const [editingPassword, setEditingPassword] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
@@ -32,15 +29,12 @@ const ProfilePage = () => {
     confirmNewPassword: ""
   });
 
-  // Notificación para informar cambios
   const [notification, setNotification] = useState("");
 
-  // Cargar información de pago desde el backend
   useEffect(() => {
     const fetchPaymentInfo = async () => {
       if (storedUser._id) {
         try {
-          // Asegúrate de usar backticks para formar la URL correctamente
           const response = await fetch(`http://localhost:5000/api/payment?userId=${storedUser._id}`);
           const data = await response.json();
           console.log("Respuesta del endpoint de payment:", data);
@@ -66,12 +60,10 @@ const ProfilePage = () => {
     fetchPaymentInfo();
   }, [storedUser._id]);
 
-  // Manejo de cambios en el formulario del perfil
   const handleProfileChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Manejo de cambio de imagen de perfil
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -82,7 +74,6 @@ const ProfilePage = () => {
     reader.readAsDataURL(file);
   };
 
-  // Actualizar perfil
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
@@ -104,12 +95,10 @@ const ProfilePage = () => {
     }
   };
 
-  // Manejar cambios en el formulario de pago
   const handlePaymentChange = (e) => {
     setPaymentFormData({ ...paymentFormData, [e.target.name]: e.target.value });
   };
 
-  // Actualizar información de pago
   const handleUpdatePayment = async (e) => {
     e.preventDefault();
     try {
@@ -132,12 +121,10 @@ const ProfilePage = () => {
     }
   };
 
-  // Manejar cambios en el formulario de contraseña
   const handlePasswordChange = (e) => {
     setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
   };
 
-  // Actualizar contraseña
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     if (passwordData.newPassword !== passwordData.confirmNewPassword) {
@@ -168,7 +155,6 @@ const ProfilePage = () => {
     }
   };
 
-  // Eliminar cuenta
   const handleDeleteAccount = async () => {
     if (window.confirm("¿Está seguro de que desea eliminar su cuenta? Esta acción es irreversible.")) {
       try {
@@ -190,14 +176,12 @@ const ProfilePage = () => {
     }
   };
 
-  // Cerrar sesión
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     navigate("/login");
   };
 
-  // Helper para formatear el número de tarjeta
   const formatCardNumber = (raw) => {
     if (!raw) return "";
     const groups = raw.match(/.{1,4}/g);
@@ -208,7 +192,7 @@ const ProfilePage = () => {
     <div className="profile-page fade-in">
       <header className="profile-header">
         <button className="profile-back" onClick={() => navigate("/")}>
-          ◀ Home
+          ◀ 
         </button>
         <h1>My Profile</h1>
         <button className="profile-logout" onClick={handleLogout}>
@@ -287,7 +271,6 @@ const ProfilePage = () => {
           </form>
         </div>
 
-        {/* Payment Info Section */}
         <div className="payment-info-section">
           {loadingPayment ? (
             <p>Loading payment info...</p>
@@ -362,7 +345,6 @@ const ProfilePage = () => {
           )}
         </div>
 
-        {/* Password Change Section */}
         <div className="password-section">
           {editingPassword ? (
             <form className="password-form" onSubmit={handleUpdatePassword}>
@@ -411,7 +393,6 @@ const ProfilePage = () => {
           )}
         </div>
 
-        {/* Delete Account Section */}
         <div className="delete-account-section">
           <button
             className="delete-account-btn"

@@ -9,7 +9,6 @@ const Homepage = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Mostrar botón "scroll to top" al hacer scroll
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.pageYOffset > 300);
@@ -28,7 +27,6 @@ const Homepage = () => {
 
   return (
     <div className={`homepage ${isDarkMode ? "dark" : "light"}`}>
-      {/* NAVIGATION */}
       <nav className="navbar">
         <div className="logo">
           <Link to="/">
@@ -65,7 +63,6 @@ const Homepage = () => {
         </div>
       </nav>
 
-      {/* HERO SECTION */}
       <header className="hero">
         <div className="hero__content">
           <h1>Track, Organize, and Grow.</h1>
@@ -81,21 +78,17 @@ const Homepage = () => {
           </div>
         </div>
 
-        {/* Reemplazamos la imagen de Dashboard por un mockup que simula el dashboard */}
         <div className="hero__image">
           <div className="hero__dashboard">
-            {/* Barra lateral izquierda */}
             <div className="dashboard__left">
               <div className="dashboard__circle"></div>
             </div>
 
-            {/* Panel derecho con "tarjetas" y estrellas */}
             <div className="dashboard__right">
               <div className="dashboard__item">
                 <span className="star"></span>
               </div>
               <div className="dashboard__item">
-                {/* sin estrella */}
               </div>
               <div className="dashboard__item">
                 <span className="star"></span>
@@ -105,7 +98,6 @@ const Homepage = () => {
         </div>
       </header>
 
-      {/* SERVICES SECTION */}
       <section id="services" className="services">
         <h2 className="services__title">Our Services</h2>
         <div className="services__tabs">
@@ -145,7 +137,7 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* PRICES SECTION */}
+      
       <section id="prices" className="prices">
         <h2>Premium Plans</h2>
         <div className="prices__cards">
@@ -190,7 +182,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* ABOUT US SECTION */}
       <section id="about" className="about">
         <h2>About us</h2>
         <div className="about__content">
@@ -208,7 +199,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* CONTACT US SECTION */}
       <section id="contact" className="contact">
         <h2>Contact Us</h2>
         <div className="contact__container">
@@ -268,7 +258,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SCROLL TO TOP BUTTON */}
       {showScrollTop && (
         <button className="scroll-top" onClick={scrollToTop}>
           ↑

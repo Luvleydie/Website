@@ -60,8 +60,8 @@ const Almacen = () => {
 
 
   const [selectedLocation, setSelectedLocation] = useState("Francisco I. Madero");
-  const [selectedTable, setSelectedTable] = useState("barra"); // "barra" o "insumos"
-  const [selectedView, setSelectedView] = useState("table"); // "table", "graphs" o "transfer"
+  const [selectedTable, setSelectedTable] = useState("barra"); 
+  const [selectedView, setSelectedView] = useState("table"); 
 
   
   const columnsBarra = [
@@ -72,7 +72,7 @@ const Almacen = () => {
     { key: "PROVEEDOR", label: "Proveedor", editable: true },
     { key: "ENTRADA", label: "Entrada", editable: true },
     { key: "STOCK", label: "Stock", editable: true },
-    { key: "UDM", label: "UDM", editable: true } // Ahora udm es editable
+    { key: "UDM", label: "UDM", editable: true } // udm
   ];
 
   const columnsInsumos = [
@@ -229,7 +229,6 @@ const Almacen = () => {
     try {
       let productToAdd = { ...newProduct };
       if (selectedTable === "barra") {
-        // Validar campos obligatorios para Barra (excepto Code)
         const { DESCRIPCION, CATEGORIA, ALMACEN, PROVEEDOR } = newProduct;
         if (!DESCRIPCION || !CATEGORIA || !ALMACEN || !PROVEEDOR) {
           alert(
@@ -237,7 +236,6 @@ const Almacen = () => {
           );
           return;
         }
-        // Si no se proporciona un código, se genera automáticamente
         if (!newProduct.CODIGO || isNaN(Number(newProduct.CODIGO))) {
           const lastProduct = await fetch(
             `http://localhost:5000/api/almacen?type=barra`
@@ -740,7 +738,6 @@ const Almacen = () => {
         </div>
       </div>
 
-      {/* Modal para agregar nuevo producto */}
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -748,7 +745,6 @@ const Almacen = () => {
             <div className="modal-form">
               {selectedTable === "barra" ? (
                 <>
-                  {/* Para Barra, se omite el campo Code (se genera automáticamente) */}
                   <label>
                     Nombre:
                     <input
@@ -864,7 +860,31 @@ const Almacen = () => {
                         "Rollos", 
                         "Litro", 
                         "Cartón de 960ml", 
-                        "Bote de 1.8L", "Frasco de 1.4L", "Botes de 320gr.", "Lata de 3.65kg", "Botes de 4L", "800ml", "Galón 3.7L", "Galón 1.89L", "Latas", "Lata de 820gr", "gr", "Latas de 425gr", "Rebanadas", "Bolsa de 2kg", "Kg", "% de Cambro", "Charola", "% del Bote", "Kilo", "Bolsitas 50gr", "% de recipiente", "Bolsita 50gr", "Bolsita de 150gr", "Caja 500gr", "% de la Tina", 
+                        "Bote de 1.8L", 
+                        "Frasco de 1.4L", 
+                        "Botes de 320gr.", 
+                        "Lata de 3.65kg", 
+                        "Botes de 4L", 
+                        "800ml", 
+                        "Galón 3.7L", 
+                        "Galón 1.89L", 
+                        "Latas", 
+                        "Lata de 820gr", 
+                        "gr", 
+                        "Latas de 425gr", 
+                        "Rebanadas", 
+                        "Bolsa de 2kg", 
+                        "Kg", 
+                        "% de Cambro", 
+                        "Charola", 
+                        "% del Bote", 
+                        "Kilo", 
+                        "Bolsitas 50gr", 
+                        "% de recipiente", 
+                        "Bolsita 50gr", 
+                        "Bolsita de 150gr", 
+                        "Caja 500gr", 
+                        "% de la Tina", 
                         "Pz (Cabeza)"
                       ].map((option) => (
                         <option key={option} value={option}>
@@ -892,7 +912,6 @@ const Almacen = () => {
                 </>
               ) : (
                 <>
-                  {/* Para Insumos, se muestra el campo Code */}
                   <label>
                     Code:
                     <input

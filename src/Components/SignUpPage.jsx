@@ -8,14 +8,11 @@ import "./Styles/SignUpPage.scss";
 const SignUpPage = () => {
   const navigate = useNavigate();
 
-  // Función para regresar al login
   const handleBack = () => {
     navigate("/login");
   };
 
-  // Callback cuando Facebook devuelve la respuesta
   const responseFacebook = async (response) => {
-    // Verifica que se reciba un token
     if (response.accessToken) {
       try {
         const backendResponse = await fetch("http://localhost:5000/api/auth/facebook", {
@@ -49,12 +46,10 @@ const SignUpPage = () => {
 
   return (
     <div className="signup-page">
-      {/* Botón para regresar al login */}
       <button className="signup-page__back" onClick={handleBack}>
         <span className="arrow-left">◀</span>
       </button>
 
-      {/* Lado izquierdo: imagen y texto */}
       <div className="signup-page__left">
         <img src="/Images/Worker.png" alt="Warehouse with inventory" />
         <div className="signup-page__overlay">
@@ -62,7 +57,6 @@ const SignUpPage = () => {
         </div>
       </div>
 
-      {/* Lado derecho: formulario de registro */}
       <div className="signup-page__right">
         <div className="signup-page__logo">
           <img src="/Images/Logo.png" alt="Alma‑Zen logo" />
@@ -95,10 +89,9 @@ const SignUpPage = () => {
           </button>
         </form>
 
-        {/* Botones de redes sociales para registro */}
         <div className="signup-page__social">
           <FacebookLogin
-            appId="YOUR_FACEBOOK_APP_ID" // Reemplaza con tu App ID de Facebook
+            appId="YOUR_FACEBOOK_APP_ID" 
             autoLoad={false}
             callback={responseFacebook}
             fields="name,email,picture"
