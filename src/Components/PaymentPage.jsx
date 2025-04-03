@@ -5,6 +5,7 @@ import "./Styles/PaymentPage.scss";
 const PaymentPage = () => {
   const navigate = useNavigate();
 
+  // Verificar que el usuario esté autenticado
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -12,44 +13,54 @@ const PaymentPage = () => {
     }
   }, [navigate]);
 
+  // Obtener datos del usuario autenticado
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
 
-  const [cardNumber, setCardNumber] = useState("0000000000000000");
+  // Estados para los campos de la tarjeta
+  const [cardNumber, setCardNumber] = useState("");
   const [nameOnCard, setNameOnCard] = useState("");
   const [cvv, setCvv] = useState("");
   const [expiry, setExpiry] = useState("");
 
+  // Limpieza y formateo del número de tarjeta
   const handleCardNumberChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Solo dígitos
-    value = value.slice(0, 16); // Máx. 16 dígitos
+    let value = e.target.value.replace(/\D/g, ""); // Permite solo dígitos
+    value = value.slice(0, 16); // Máximo 16 dígitos
     setCardNumber(value);
   };
 
+  // Formatear el número de tarjeta en grupos de 4 dígitos
   const formatCardNumber = (raw) => {
     const groups = raw.match(/.{1,4}/g);
     return groups ? groups.join(" ") : raw;
   };
 
+  // Función para enviar los datos de pago al backend
   const handleConfirm = async () => {
     const paymentData = {
       cardNumber,
       nameOnCard,
       cvv,
       expiry,
-      userId: storedUser._id 
+      userId: storedUser._id, // Asociar el pago al usuario autenticado
     };
 
     try {
       const response = await fetch("http://localhost:5000/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paymentData)
+        body: JSON.stringify(paymentData),
       });
       const data = await response.json();
       if (response.ok) {
         alert("Payment details saved successfully!");
+        // Opcional: reiniciar el formulario
+        setCardNumber("");
+        setNameOnCard("");
+        setCvv("");
+        setExpiry("");
       } else {
-        alert(data.error);
+        alert(data.error || "Error saving payment details");
       }
     } catch (error) {
       console.error("Error saving payment details:", error);
@@ -57,20 +68,24 @@ const PaymentPage = () => {
     }
   };
 
+  // Función para regresar al homepage
   const handleBack = () => {
     navigate("/");
   };
 
   return (
     <div className="payment-page">
+      {/* Botón para volver al homepage */}
       <button className="payment-page__back" onClick={handleBack}>
         <span className="arrow-left">◀</span>
       </button>
 
+      {/* Logo (opcional) */}
       <div className="payment-page__brand">
-        <img src="/Images/Logo.png" alt="ALMA - ZEN Logo" />
+        <img src="/images/fudtrack.png" alt="ALMA - ZEN Logo" />
       </div>
 
+      {/* Top right: Foto de perfil pequeña */}
       <div className="payment-page__profile">
         <img
           src={storedUser.profileImage || "/images/default-profile.png"}
@@ -80,8 +95,9 @@ const PaymentPage = () => {
         />
       </div>
 
+      {/* Tarjeta de pago */}
       <div className="payment-page__card">
-        <h3 className="payment-page__plan">Medium</h3>
+        <h3 className="payment-page__plan">Enter Payment Details</h3>
         <div className="payment-page__chip">
           <img src="/Images/Chip4.png" alt="Card Chip" />
         </div>
@@ -113,7 +129,7 @@ const PaymentPage = () => {
           />
           <input
             type="text"
-            placeholder="MM/AA"
+            placeholder="MM/YY"
             value={expiry}
             onChange={(e) => setExpiry(e.target.value)}
             maxLength={5}
@@ -124,6 +140,7 @@ const PaymentPage = () => {
         </button>
       </div>
 
+      {/* Footer con enlace para crear cuenta */}
       <div className="payment-page__footer">
         <p>No user?</p>
         <Link to="/signup">Create Account</Link>

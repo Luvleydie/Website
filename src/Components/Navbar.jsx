@@ -11,7 +11,7 @@ const Navbar = ({ isMobileNavOpen, toggleMobileNav }) => {
     <nav className="navbar">
       <div className="logo">
         <Link to="/">
-          <img src="/images/Logo.png" alt="Logo Alma - Zen" />
+          <img src="/images/Fudtrack2.png" alt="Logo Alma - Zen" />
         </Link>
       </div>
 

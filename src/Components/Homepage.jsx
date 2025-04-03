@@ -30,7 +30,7 @@ const Homepage = () => {
       <nav className="navbar">
         <div className="logo">
           <Link to="/">
-            <img src="/images/Logo.png" alt="Logo Alma - Zen" />
+            <img src="/images/Fudtrack2.png" alt="Logo Alma - Zen" />
           </Link>
         </div>
 
@@ -144,7 +144,7 @@ const Homepage = () => {
           <div className="prices__card prices__card--basic">
             <h3>MX$0</h3>
             <p>Per month</p>
-            <h4>Basic</h4>
+            <h4>Taster</h4>
             <ul>
               <li>Limited products storage to 50 products</li>
               <li>Standard dashboard</li>
@@ -156,7 +156,7 @@ const Homepage = () => {
           <div className="prices__card prices__card--medium">
             <h3>MX$199</h3>
             <p>Per month</p>
-            <h4>Medium</h4>
+            <h4>Chef</h4>
             <ul>
               <li>Limited products storage to 300 products</li>
               <li>Graphs</li>
@@ -169,7 +169,7 @@ const Homepage = () => {
           <div className="prices__card prices__card--premium">
             <h3>MX$499</h3>
             <p>Per month</p>
-            <h4>Premium</h4>
+            <h4>Maestro</h4>
             <ul>
               <li>Limited products storage to 1000 products</li>
               <li>All graphs unlocked</li>
@@ -187,7 +187,7 @@ const Homepage = () => {
         <div className="about__content">
           <div className="about__text">
             <p>
-            At Alma - zen, we specialize in providing efficient solutions for inventory management. Our goal is to help companies and entrepreneurs optimize the control of their products, reduce losses and improve decision making with advanced and easy-to-use technology.
+            At Fudtrack, we specialize in providing efficient solutions for inventory management. Our goal is to help companies and entrepreneurs optimize the control of their products, reduce losses and improve decision making with advanced and easy-to-use technology.
             </p>
             <p>
             We are committed to offering a reliable, safe and adaptable service to the needs of each business. With us your <strong>inventory management will improve to the next level!</strong>

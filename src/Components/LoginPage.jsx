@@ -77,7 +77,7 @@ const LoginPage = () => {
       </button>
       <div className="login-page__card">
         <div className="login-page__logo">
-          <img src="./Images/Logo.png" alt="Alma-zen logo" />
+          <img src="./Images/fudtrack.png" alt="Alma-zen logo" />
         </div>
         <h2 className="login-page__title">Log in</h2>
         <form className="login-page__form" onSubmit={handleSubmit}>
@@ -140,7 +140,7 @@ const LoginPage = () => {
           </button>
         </div>
         <div className="login-page__signup">
-          <span>New to Alma-zen?</span>
+          <span>New to Fudtrack?</span>
           <Link to="/signup">Create Account</Link>
         </div>
       </div>
@@ -148,7 +148,7 @@ const LoginPage = () => {
         <a href="#!">Terms</a>
         <a href="#!">Privacy</a>
         <a href="#!">Docs</a>
-        <a href="#!">Contact Alma - Zen Support</a>
+        <a href="#!">Contact Fudtrack</a>
         <a href="#!">Manage cookies</a>
       </footer>
     </div>
