@@ -95,7 +95,7 @@ const PaymentPage = () => {
 
       {/* Logo */}
       <div className="payment-page__brand">
-        <img src="/Images/Logo.png" alt="ALMA - ZEN Logo" />
+        <img src="/Images/fudtrack.png" alt="ALMA - ZEN Logo" />
       </div>
 
       {/* Top right: Foto de perfil pequeña */}
