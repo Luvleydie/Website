@@ -1,4 +1,25 @@
-# Getting Started with Create React App
+Dependencias para el proyecto
+Front
+npm install react react-dom
+npm install react-router-dom
+npm install chart.js react-chartjs-2
+npm install sass
+npm install react-facebook-login
+npm install framer-motion
+npm install react-toastify
+Back
+npm install express
+npm install mongoose
+npm install bcrypt
+npm install jsonwebtoken
+npm install dotenv
+comando front
+npm install react react-dom react-router-dom chart.js react-chartjs-2 sass react-facebook-login framer-motion
+comando back
+npm install express mongoose bcrypt jsonwebtoken dotenv
+
+
+#Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
