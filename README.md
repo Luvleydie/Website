@@ -1,3 +1,4 @@
+Para correrlo es npm start
 Dependencias para el proyecto
 Front
 npm install react react-dom
