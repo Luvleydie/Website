@@ -6,6 +6,7 @@ npm install chart.js react-chartjs-2
 npm install sass
 npm install react-facebook-login
 npm install framer-motion
+npm install react-toastify
 Back
 npm install express
 npm install mongoose
