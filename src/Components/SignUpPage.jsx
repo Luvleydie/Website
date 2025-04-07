@@ -1,10 +1,20 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Styles/SignUpPage.scss";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  // Estado para el formulario de registro
+
+  // Si ya hay sesión iniciada, redirige al perfil
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      navigate("/profile");
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -13,20 +23,16 @@ const SignUpPage = () => {
     phone: ""
   });
 
-  // Manejo de cambios en los inputs
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Función de envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validación simple de contraseña
     if (formData.password !== formData.confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      toast.error("Las contraseñas no coinciden");
       return;
     }
-    // Realiza una petición POST al endpoint de registro del backend
     try {
       const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
@@ -40,42 +46,40 @@ const SignUpPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        alert("Registro exitoso");
-        navigate("/login"); // Redirige al login
+        toast.success("Registro exitoso");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
-        alert(data.error);
+        toast.error(data.error || "Error en el registro");
       }
     } catch (err) {
       console.error(err);
-      alert("Error en el registro");
+      toast.error("Error en el registro");
     }
   };
 
-  // Función para regresar al login
   const handleBack = () => {
     navigate("/login");
   };
 
   return (
     <div className="signup-page">
-      {/* Flecha en la parte superior izquierda para volver al login */}
+      <ToastContainer />
       <button className="login-page__back" onClick={handleBack}>
         <span className="arrow-left">◀</span>
       </button>
 
-      {/* Lado izquierdo: imagen y texto */}
       <div className="signup-page__left">
         <img src="Images/Worker.png" alt="Warehouse with inventory" />
         <div className="signup-page__overlay">
-          <h2>
-          </h2>
+          {/* Texto o imagen de fondo opcional */}
         </div>
       </div>
 
-      {/* Lado derecho: formulario */}
       <div className="signup-page__right">
         <div className="signup-page__logo">
-          <img src="Images/fudtrack.png" alt="Alma-zen logo" />
+          <img src="Images/fudtrack.png" alt="Fudtrack logo" />
         </div>
         <h2 className="signup-page__title">Create your account</h2>
 
@@ -129,13 +133,11 @@ const SignUpPage = () => {
               onChange={handleChange}
             />
           </label>
-          {/* Botón principal */}
           <button type="submit" className="signup-page__main-btn">
             Sign Up
           </button>
         </form>
 
-        {/* Botones de redes sociales */}
         <div className="signup-page__social">
           <button className="signup-page__social-btn facebook-btn">
             <span className="icon">
@@ -151,7 +153,6 @@ const SignUpPage = () => {
           </button>
         </div>
 
-        {/* Enlace para regresar al login */}
         <div className="signup-page__login">
           <span>Already have an account?</span>
           <Link to="/login">Log in</Link>

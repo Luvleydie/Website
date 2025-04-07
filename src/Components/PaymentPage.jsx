@@ -24,12 +24,12 @@ const PaymentPage = () => {
 
   // Limpieza y formateo del número de tarjeta
   const handleCardNumberChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Permite solo dígitos
-    value = value.slice(0, 16); // Máximo 16 dígitos
+    let value = e.target.value.replace(/\D/g, ""); // Solo dígitos
+    value = value.slice(0, 16); // Máx. 16 dígitos
     setCardNumber(value);
   };
 
-  // Formatear el número de tarjeta en grupos de 4 dígitos
+  // Formatear el número de tarjeta (agrupa cada 4 dígitos)
   const formatCardNumber = (raw) => {
     const groups = raw.match(/.{1,4}/g);
     return groups ? groups.join(" ") : raw;
@@ -37,6 +37,19 @@ const PaymentPage = () => {
 
   // Función para enviar los datos de pago al backend
   const handleConfirm = async () => {
+    // Verificar que se encuentre el usuario (userId)
+    if (!storedUser._id) {
+      alert("Usuario no encontrado. Por favor, inicia sesión nuevamente.");
+      navigate("/login");
+      return;
+    }
+
+    // Validar que se hayan ingresado todos los campos requeridos
+    if (!cardNumber || cardNumber.length < 16 || !nameOnCard || !cvv || !expiry) {
+      alert("Por favor, ingresa todos los datos válidos (número de tarjeta de 16 dígitos, nombre, CVV y fecha de expiración).");
+      return;
+    }
+
     const paymentData = {
       cardNumber,
       nameOnCard,
@@ -44,6 +57,8 @@ const PaymentPage = () => {
       expiry,
       userId: storedUser._id, // Asociar el pago al usuario autenticado
     };
+
+    console.log("Enviando paymentData:", paymentData);
 
     try {
       const response = await fetch("http://localhost:5000/api/payment", {
@@ -53,18 +68,16 @@ const PaymentPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        alert("Payment details saved successfully!");
-        // Opcional: reiniciar el formulario
-        setCardNumber("");
-        setNameOnCard("");
-        setCvv("");
-        setExpiry("");
+        alert("Detalles de pago guardados exitosamente!");
+        // Redirigir al perfil para ver la información de pago
+        navigate("/profile");
       } else {
-        alert(data.error || "Error saving payment details");
+        console.error("Error del backend:", data.error);
+        alert(data.error || "Error guardando los detalles de pago.");
       }
     } catch (error) {
-      console.error("Error saving payment details:", error);
-      alert("Error saving payment details");
+      console.error("Error guardando los detalles de pago:", error);
+      alert("Error guardando los detalles de pago.");
     }
   };
 
@@ -80,9 +93,9 @@ const PaymentPage = () => {
         <span className="arrow-left">◀</span>
       </button>
 
-      {/* Logo (opcional) */}
+      {/* Logo */}
       <div className="payment-page__brand">
-        <img src="/images/fudtrack.png" alt="ALMA - ZEN Logo" />
+        <img src="/Images/Logo.png" alt="ALMA - ZEN Logo" />
       </div>
 
       {/* Top right: Foto de perfil pequeña */}
@@ -101,9 +114,7 @@ const PaymentPage = () => {
         <div className="payment-page__chip">
           <img src="/Images/Chip4.png" alt="Card Chip" />
         </div>
-        <div className="payment-page__number">
-          {formatCardNumber(cardNumber)}
-        </div>
+        <div className="payment-page__number">{formatCardNumber(cardNumber)}</div>
         <div className="payment-page__divider"></div>
         <div className="payment-page__inputs">
           <input
@@ -111,7 +122,7 @@ const PaymentPage = () => {
             placeholder="Card Number"
             value={formatCardNumber(cardNumber)}
             onChange={handleCardNumberChange}
-            maxLength={19} // 16 dígitos + 3 espacios
+            maxLength={19} // 16 dígitos + espacios
           />
           <input
             type="text"
@@ -129,7 +140,7 @@ const PaymentPage = () => {
           />
           <input
             type="text"
-            placeholder="MM/YY"
+            placeholder="Expiry (MM/YY)"
             value={expiry}
             onChange={(e) => setExpiry(e.target.value)}
             maxLength={5}
